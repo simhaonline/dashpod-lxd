@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>LXC/LXD Instance</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="theme/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+      <div id="navLinks"></div>     
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+      <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+    </ul>
+    <!-- End of Sidebar -->
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="index.html">
+                  <i class="fas fa-server fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Home
+                </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">LXD/LXC Instance</h1>
+          </div>
+
+          <div class="row">
+
+
+            <div class="col-12">
+              <!-- Instance List -->
+              <div class="card shadow mb-4">
+                <a href="#collapseCardInfo" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardInfo">
+                  <h6 class="m-0 font-weight-bold text-primary">Info</h6>
+                </a>
+                <div class="collapse show" id="collapseCardInfo">
+                  <div class="card-body">
+                      <div id="instanceInfoBasic"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Instance List -->
+            </div>
+
+
+
+            <div class="col-12">
+              <!-- Instance List -->
+              <div class="card shadow mb-4">
+                <a href="#collapseCardSnapshots" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardSnapshots">
+                  <h6 class="m-0 font-weight-bold text-primary">Snapshots</h6>
+                </a>
+                <div class="collapse show" id="collapseCardSnapshot">
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table" id="snapshotTableList" width="100%" cellspacing="0">
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Instance List -->
+            </div>
+
+
+
+            <div class="col-12">
+              <!-- Detailed Info -->
+              <div class="card shadow mb-4">
+                <a href="#collapseCardDetails" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardDetails">
+                  <h6 class="m-0 font-weight-bold text-primary">Full Details</h6>
+                </a>
+                <div class="collapse" id="collapseCardDetails">
+                  <div class="card-body">
+                    <div id="instanceInfoDetailed"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- Detailed Info -->
+            </div>
+
+
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; dashpod.org 2020</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+
+  <!-- New Snapshot Modal-->
+  <div class="modal fade" id="newSnapshotModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <form action="./php/lxd/instance-snapshot-create.php" method="GET">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create New Snapshot</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <label class="col-4 col-form-label text-right">Snapshot Name: </label>
+              <div class="col-8">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Snapshot Name" name="snapshot">
+                </div>
+              </div>
+            </div>
+            <input type="hidden" id="remoteInputSnapshot" name="remote" value="">
+            <input type="hidden" id="instanceInputSnapshot" name="name" value="">
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary" id="submit" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Copy Instance Modal-->
+  <div class="modal fade" id="copyInstanceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <form action="./php/lxd/instance-copy.php" method="GET">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Copy/Clone Instance</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <label class="col-4 col-form-label text-right">Clone Name: </label>
+              <div class="col-8">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="New Instance Name" name="copy">
+                </div>
+              </div>
+            </div>
+            <input type="hidden" id="remoteInputCopy" name="remote" value="">
+            <input type="hidden" id="instanceInputCopy" name="name" value="">
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary" id="submit" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="theme/vendor/jquery/jquery.min.js"></script>
+  <script src="theme/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="theme/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="theme/js/sb-admin-2.min.js"></script>
+
+
+  <script>
+    $.get("sidebar.html", function(data){
+        $("#navLinks").replaceWith(data);
+    });
+  </script>
+
+
+</body>
+
+<script>
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const remoteName = encodeURI(urlParams.get('remote')); //encode because it may contain spaces in name
+  const instanceName = encodeURI(urlParams.get('name'));
+  
+
+
+  document.getElementById("remoteInputSnapshot").value = remoteName;
+  document.getElementById("instanceInputSnapshot").value = instanceName;
+  document.getElementById("remoteInputCopy").value = remoteName;
+  document.getElementById("instanceInputCopy").value = instanceName;
+
+
+  $(document).ready(function(){
+
+    $("#instanceInfoBasic").load("./php/lxd/instance-info-basic.php?name=" + instanceName + "&remote=" + remoteName);
+    $("#instanceInfoDetailed").load("./php/lxd/instance-info-detailed.php?name=" + instanceName + "&remote=" + remoteName);
+    $("#snapshotTableList").load("./php/lxd/instance-snapshot-list.php?name=" + instanceName + "&remote=" + remoteName);
+  
+
+  });
+
+
+
+  function decodeHtml(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  }
+
+  var ajaxAlert = new XMLHttpRequest();
+  ajaxAlert.onreadystatechange = function() {
+    if (ajaxAlert.readyState == 4) {
+      if (ajaxAlert.responseText != ""){
+        message = decodeHtml(ajaxAlert.responseText)
+        alert(message);
+      }
+    }
+  };
+  ajaxAlert.open("GET", "./php/alert.php", true);
+  ajaxAlert.send(null);
+
+
+</script>
+
+</html>
