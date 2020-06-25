@@ -10,7 +10,7 @@ $port = filter_var(urldecode($_GET['port']), FILTER_SANITIZE_STRING);
 
 //Remotes do not seem to have to same naming restrictions as other LXD objects
 //For safety of sqlitedb and commands, replace anything other than alphanumeric, "_", "-", or space with ""
-$name  = preg_replace('/[^a-zA-Z0-9_ -]/s','',$name);
+$name  = preg_replace('/[^a-zA-Z0-9._ -]/s','',$name);
 
 if ($name != "")
   $valid_name = true;
