@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>LXC/LXD Add Image</title>
+  <title id="hostTitle">LXC/LXD Add Image</title>
 
   <!-- Custom fonts for this template-->
   <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -82,7 +82,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">LXD/LXC Add Image</h1>
+            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Add Image</h1>
           </div>
 
           <div class="row">
@@ -210,7 +210,8 @@
 
 
   $(document).ready(function(){
-
+    $("#hostHeading").text(decodeURI(remoteName) + " - Add Image")
+    $("#hostTitle").text(decodeURI(remoteName) + " - Add Image")
     $("#imageListTable").load("./php/lxd/image-list.php?remote=" + remoteName);
 
   });

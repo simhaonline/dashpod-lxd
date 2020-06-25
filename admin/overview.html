@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>LXC/LXD Overview</title>
+  <title id="hostTitle">LXC/LXD Overview</title>
 
   <!-- Custom fonts for this template-->
   <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -126,7 +126,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">LXD/LXC Overview</h1>
+            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Overview</h1>
 
           </div>
 
@@ -328,6 +328,8 @@
   const remoteName = encodeURI(urlParams.get('remote')); //encode because it may contain spaces in name
 
   $(document).ready(function(){
+    $("#hostHeading").text(decodeURI(remoteName) + " - Overview")
+    $("#hostTitle").text(decodeURI(remoteName) + " - Overview")
     $("#instanceListTable").load("./php/lxd/instance-list.php?remote=" + remoteName);
     $("#imageListTable").load("./php/lxd/image-list.php?remote=" + remoteName);
     $("#networkListTable").load("./php/lxd/network-list.php?remote=" + remoteName);
