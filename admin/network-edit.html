@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>LXC/LXD Edit Network</title>
+  <title id="hostTitle">LXC/LXD Edit Network</title>
 
   <!-- Custom fonts for this template-->
   <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -83,7 +83,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">LXD/LXC Edit Network</h1>
+            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Edit Network</h1>
           </div>
 
           <div class="row">
@@ -225,6 +225,8 @@ type: bridge
 
 
   $(document).ready(function(){
+    $("#hostHeading").text(decodeURI(remoteName) + " - Edit Network")
+    $("#hostTitle").text(decodeURI(remoteName) + " - Edit Network")
 
     $("#networkListTable").load("./php/lxd/network-list.php?remote=" + remoteName);
     $("#yamlInput").load("./php/lxd/network-show.php?name=" + networkName + "&remote=" + remoteName);

@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>LXC/LXD Add Profile</title>
+  <title id="hostTitle">LXC/LXD Add Profile</title>
 
   <!-- Custom fonts for this template-->
   <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -82,7 +82,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">LXD/LXC Add Profile</h1>
+            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Add Profile</h1>
           </div>
 
           <div class="row">
@@ -231,6 +231,8 @@ devices:
 
 
   $(document).ready(function(){
+    $("#hostHeading").text(decodeURI(remoteName) + " - Add Profile")
+    $("#hostTitle").text(decodeURI(remoteName) + " - Add Profile")
 
     $("#profileListTable").load("./php/lxd/profile-list.php?remote=" + remoteName);
 
