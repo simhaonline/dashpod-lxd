@@ -8,6 +8,9 @@ if (!isset($_SESSION)) {
 $remote = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
 $name = filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING);
 
+//remove special characters 
+$name  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$name);
+$remote  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$remote);
 
 #Get the JSON data
 $results = exec("sudo lxc list '$remote':'$name' --format json 2>&1", $output, $return);

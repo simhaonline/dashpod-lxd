@@ -236,6 +236,39 @@
     </div>
   </div>
 
+    <!-- Ansible Playbook Modal-->
+    <div class="modal fade" id="playbookInstanceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <form action="./php/lxd/ansible-playbook.php" method="POST">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Run Playbook</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <label class="col-12 col-form-label text-center">Ansible Playbook: </label>
+                <div class="col-12 text-right">
+                  <div class="form-group">
+                    <pre>
+                      <textarea id="playbookTextarea" name="yaml" class="form-control" rows="20"></textarea>
+                    </pre>
+                  </div>
+                  <hr>
+                  <input type="submit" class="btn btn-primary" id="submit" value="Submit">
+                </div>
+              </div>
+              <input type="hidden" id="remoteInputPlaybook" name="remote" value="">
+              <input type="hidden" id="instanceInputPlaybook" name="name" value="">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
   <!-- Bootstrap core JavaScript-->
   <script src="theme/vendor/jquery/jquery.min.js"></script>
   <script src="theme/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -261,13 +294,15 @@
   const urlParams = new URLSearchParams(queryString);
   const remoteName = encodeURI(urlParams.get('remote')); //encode because it may contain spaces in name
   const instanceName = encodeURI(urlParams.get('name'));
-  
+  const playbookSample = "---\n- hosts: " + instanceName + "\n  tasks:\n  - name: Install Apache2\n    apt:\n      name: apache2\n      state: present";
 
 
   document.getElementById("remoteInputSnapshot").value = remoteName;
   document.getElementById("instanceInputSnapshot").value = instanceName;
   document.getElementById("remoteInputCopy").value = remoteName;
   document.getElementById("instanceInputCopy").value = instanceName;
+  document.getElementById("remoteInputPlaybook").value = remoteName;
+  document.getElementById("instanceInputPlaybook").value = instanceName;
 
 
   $(document).ready(function(){
@@ -278,7 +313,7 @@
     $("#instanceInfoDetailed").load("./php/lxd/instance-info-detailed.php?name=" + instanceName + "&remote=" + remoteName);
     $("#snapshotTableList").load("./php/lxd/instance-snapshot-list.php?name=" + instanceName + "&remote=" + remoteName);
   
-
+    $("#playbookTextarea").attr('placeholder',playbookSample);
   });
 
 

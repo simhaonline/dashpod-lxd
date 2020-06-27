@@ -8,6 +8,10 @@ $remote = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
 $name = filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING);
 $copy = filter_var(urldecode($_GET['copy']), FILTER_SANITIZE_STRING);
 
+//remove special characters 
+$name  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$name);
+$remote  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$remote);
+$copy  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$copy);
 
 exec("sudo lxc copy '$remote':'$name' '$remote':'$copy' 2>&1", $output, $return);
 

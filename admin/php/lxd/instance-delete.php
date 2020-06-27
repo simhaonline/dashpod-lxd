@@ -7,6 +7,10 @@ if (!isset($_SESSION)) {
 $remote = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
 $name = filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING);
 
+//remove special characters 
+$name  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$name);
+$remote  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$remote);
+
 exec("sudo lxc delete '$remote':'$name' 2>&1", $output, $return);
 
 if ($return == 0) {

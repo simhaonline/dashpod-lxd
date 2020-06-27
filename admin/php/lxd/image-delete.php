@@ -7,6 +7,10 @@ if (!isset($_SESSION)) {
 $remote = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
 $fingerprint = filter_var(urldecode($_GET['fingerprint']), FILTER_SANITIZE_STRING);
 
+//remove special characters 
+$remote  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$remote);
+$fingerprint  = preg_replace('/[^a-zA-Z0-9]/s','-',$fingerprint);
+
 exec("sudo lxc image delete '$remote':'$fingerprint' 2>&1", $output, $return);
 
 if ($return == 0) {

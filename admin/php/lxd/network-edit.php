@@ -10,6 +10,10 @@ $yaml = urldecode($_POST['yaml']);
 $time = date('d-m-y-H-i-s',time()); //to add some uniqueness to filename 
 $filepath = "/tmp/dashpod-profile-" . $time . ".yaml";
 
+//remove special characters 
+$name  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$name);
+$remote  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$remote);
+
 #Create a file to write the YAML data to
 $yamlfile = fopen($filepath, "w") or die("Unable to open file!");
 fwrite($yamlfile,$yaml);
