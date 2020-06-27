@@ -7,6 +7,10 @@ if (!isset($_SESSION)) {
 $remote = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
 $image = filter_var(urldecode($_GET['image']), FILTER_SANITIZE_STRING);
 
+//remove special characters 
+$remote  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$remote);
+$image  = preg_replace('/[^a-zA-Z0-9\.\_\-\/]/s','-',$image);
+
 exec("sudo lxc image copy images:'$image' '$remote': 2>&1", $output, $return);
 
 if ($return == 0) {

@@ -24,11 +24,14 @@ RUN apt-get install php-sqlite3 -y
 RUN apt-get install libc6 -y
 COPY lxc /usr/bin/
 
+#Install Ansible
+RUN apt-get install ansible -y
+
 #Open up port 80 for web traffic
 EXPOSE 80
 
 #Set the no password option for running lxc commands
-RUN echo "www-data ALL=(ALL) NOPASSWD: /usr/bin/lxc" >> /etc/sudoers
+RUN echo "www-data ALL=(ALL) NOPASSWD: /usr/bin/lxc, /usr/bin/ansible-playbook" >> /etc/sudoers
 
 #Setup web directory and files
 COPY default /etc/nginx/sites-available/

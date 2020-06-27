@@ -10,10 +10,10 @@ $yaml = urldecode($_POST['yaml']);
 $time = date('d-m-y-H-i-s',time()); //to add some uniqueness to filename 
 $filepath = "/tmp/dashpod-profile-" . $time . ".yaml";
 
+//remove special characters 
+$name  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$name);
+$remote  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$remote);
 
-//Profiles do not seem to have to same naming restrictions as other LXD objects
-//For safety, replace anything other than alphanumeric, "_", "-", or space with ""
-$name  = preg_replace('/[^a-zA-Z0-9_ -]/s','',$name);
 
 
 #Create a file to write the YAML data to
