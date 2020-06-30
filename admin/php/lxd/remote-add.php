@@ -29,7 +29,7 @@ else
 
 if ($return == 0) {
   $db = new SQLite3('/var/dashpod/data/sqlite/dashpod.sqlite');
-  $db->exec('CREATE TABLE IF NOT EXISTS lxd_remotes (name STRING PRIMARY KEY, host STRING, port STRING)');
+  $db->exec('CREATE TABLE IF NOT EXISTS lxd_remotes (name TEXT PRIMARY KEY, host TEXT, port INTEGER, exit_status INTEGER, return_value TEXT)');
   $db->exec("INSERT INTO lxd_remotes (name, host, port) VALUES ('$name', '$host', '$port')");
 
   header("Location: ".$_SERVER['HTTP_REFERER']);

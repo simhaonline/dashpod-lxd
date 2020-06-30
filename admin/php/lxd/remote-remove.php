@@ -5,9 +5,19 @@ if (!isset($_SESSION)) {
 }
 
 $name = filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING);
+$dbonly = filter_var(urldecode($_GET['dbonly']), FILTER_SANITIZE_STRING);
 
 //remove special characters 
 $name  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$name);
+
+
+if ($dbonly == "true") {
+  $db = new SQLite3('/var/dashpod/data/sqlite/dashpod.sqlite');
+  $db->exec("DELETE FROM lxd_remotes WHERE name = '$name'");
+  header("Location: ".$_SERVER['HTTP_REFERER']);
+  exit;
+}
+
 
 exec("sudo lxc remote remove '$name' 2>&1", $output, $return);
 

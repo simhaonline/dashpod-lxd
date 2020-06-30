@@ -36,7 +36,10 @@ then
     name=$(echo "$f" | cut -d "|" -f 1)
     host=$(echo "$f" | cut -d "|" -f 2)
     port=$(echo "$f" | cut -d "|" -f 3)
-    lxc remote add "$name" $host:$port --accept-certificate
+    return_value=$(lxc remote add "$name" $host:$port --accept-certificate 2>&1)
+    #Add exit status and return value to table
+    cmd="UPDATE lxd_remotes set exit_status='$?', return_value='$return_value' WHERE name='$name'"
+    sqlite3 /var/dashpod/data/sqlite/dashpod.sqlite "$cmd"
   done
 fi
 
