@@ -115,6 +115,7 @@
                                   <textarea name="yaml" class="form-control" rows="16" ></textarea>
                                 </pre>
                                 <input type="hidden" id="remoteInput" name="remote">
+                                <input type="hidden" id="projectInput" name="project">
                               </div>
                               <hr>
                               <input type="submit" class="btn btn-primary" id="submit" value="Submit">
@@ -226,15 +227,17 @@ devices:
 <script>
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const remoteName = encodeURI(urlParams.get('remote')); //encode because it may contain spaces in name
-  document.getElementById("remoteInput").value = remoteName;
+  const remoteName = urlParams.get('remote'); 
+  const projectName = urlParams.get('project'); 
 
+  document.getElementById("remoteInput").value = remoteName;
+  document.getElementById("projectInput").value = projectName;
 
   $(document).ready(function(){
-    $("#hostHeading").text(decodeURI(remoteName) + " - Add Profile")
-    $("#hostTitle").text(decodeURI(remoteName) + " - Add Profile")
+    $("#hostHeading").text(remoteName + " - Add Profile");
+    $("#hostTitle").text(remoteName + " - Add Profile");
 
-    $("#profileListTable").load("./php/lxd/profile-list.php?remote=" + remoteName);
+    $("#profileListTable").load("./php/lxd/profile-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
   });
 

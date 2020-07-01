@@ -4,23 +4,27 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-$remote = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
-$name = filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING);
-
-//remove special characters 
-$name  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$name);
-$remote  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$remote);
-
+$remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING));
+$name = escapeshellarg(filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING));
+$project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING));
+$name_url = filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING);
+$remote_url = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
+$project_url = filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING);
 
 #Get the JSON data
-$results = exec("sudo lxc list '$remote':'$name' --format json 2>&1", $output, $return);
+$results = exec("sudo lxc list $remote:$name --project $project --format json 2>&1", $output, $return);
 
 #Decode the JSON data
 $items = json_decode($results, true);
 
 foreach ($items as $item) {
-  $created = $item['created_at'];
+ 
   $name = $item['name'];
+  //Check to make sure name is not empty, also the lxc list command works more like a instance search string, limit to exact match
+  if ($name != $name_url)
+    continue;
+  
+  $created = $item['created_at'];
   $description = $item['description'];
   $image = $item['config']['image.description'];
   $status = $item['status']; //ex Running
@@ -29,20 +33,19 @@ foreach ($items as $item) {
   $profiles = $item['profiles'];
   $devices = $item['expanded_devices'];
 
-  if ($name == "")
-    continue;
+
 
 
     echo '<div class="col-12 text-right">';
 
     if ($status != "Running"){
      
-      echo '<a href="./php/lxd/instance-start.php?name=' . $name . '&remote=' . $remote . '">';
+      echo '<a href="./php/lxd/instance-start.php?name=' . $name . '&remote=' . $remote_url . '&project=' . $project_url . '">';
         echo "Start";
       echo '</a>';
     }
     else {
-      echo '<a  href="./php/lxd/instance-stop.php?name=' . $name . '&remote=' . $remote . '">';
+      echo '<a  href="./php/lxd/instance-stop.php?name=' . $name . '&remote=' . $remote_url . '&project=' . $project_url . '">';
         echo "Stop";
       echo '</a>';
     }
@@ -59,7 +62,7 @@ foreach ($items as $item) {
       echo '</a>';
 
       echo " | ";
-      echo '<a href="./php/lxd/instance-delete.php?name='. $name . '&remote=' . $remote . '">';
+      echo '<a href="./php/lxd/instance-delete.php?name='. $name . '&remote=' . $remote_url . '&project=' . $project_url . '">';
       echo 'Delete';
       echo '</a>';
     }

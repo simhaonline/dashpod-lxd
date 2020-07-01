@@ -55,6 +55,7 @@ foreach ($items as $item=>$value) {
   echo '<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">';
   echo '<div class="dropdown-header">Options:</div>';
 
+  echo '<a class="dropdown-item" href="project-create.html?remote='. $name . '">Add Project</a>';
   echo '<a class="dropdown-item" href="./php/lxd/remote-remove.php?name='. $name . '">Delete</a>';
 
   echo '</div>';

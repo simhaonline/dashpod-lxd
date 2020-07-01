@@ -4,15 +4,12 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-$remote = filter_var(urldecode($_POST['remote']), FILTER_SANITIZE_STRING);
-$name = filter_var(urldecode($_POST['name']), FILTER_SANITIZE_STRING);
+$remote = escapeshellarg(filter_var(urldecode($_POST['remote']), FILTER_SANITIZE_STRING));
+$name = escapeshellarg(filter_var(urldecode($_POST['name']), FILTER_SANITIZE_STRING));
+$project = escapeshellarg(filter_var(urldecode($_POST['project']), FILTER_SANITIZE_STRING));
 $yaml = urldecode($_POST['yaml']);
 $time = date('d-m-y-H-i-s',time()); //to add some uniqueness to filename 
 $filepath = "/tmp/dashpod-profile-" . $time . ".yaml";
-
-//remove special characters 
-$name  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$name);
-$remote  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$remote);
 
 
 #Create a file to write the YAML data to
@@ -21,7 +18,7 @@ fwrite($yamlfile,$yaml);
 fclose($yamlfile);
 
 #Apply YAML configuration to profile
-$edit = exec("sudo lxc profile edit '$remote':'$name' < $filepath 2>&1", $output, $return);
+$edit = exec("sudo lxc profile edit $remote:$name --project $project < $filepath 2>&1", $output, $return);
 
 #Remove temp file
 unlink($filepath);
@@ -42,7 +39,5 @@ else {
     exit;
   }
 }
-
-
 
 ?>

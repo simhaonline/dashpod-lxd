@@ -4,16 +4,17 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-$remote = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
+$remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING));
+$project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING));
+$remote_url = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
+$project_url = filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING);
 
-//remove special characters 
-$remote  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$remote);
 
 //Set exec time limit to 10 seconds
 set_time_limit(10);
 
 #Get the JSON data
-$results = exec("sudo lxc network list '$remote': --format json 2>&1", $output, $return);
+$results = exec("sudo lxc network list $remote: --project $project --format json 2>&1", $output, $return);
 
 if ($return == 0 ) {
 
@@ -64,8 +65,8 @@ if ($return == 0 ) {
       echo '<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">';
       echo '<div class="dropdown-header">Options:</div>';
 
-      echo '<a class="dropdown-item" href="network-edit.html?name='. $name . '&remote=' . $remote . '">Edit</a>';
-      echo '<a class="dropdown-item" href="./php/lxd/network-delete.php?name='. $name . '&remote=' . $remote . '">Delete</a>';
+      echo '<a class="dropdown-item" href="network-edit.html?name='. $name . '&remote=' . $remote_url .'&project=' . $project_url .  '">Edit</a>';
+      echo '<a class="dropdown-item" href="./php/lxd/network-delete.php?name='. $name . '&remote=' . $remote_url .'&project=' . $project_url .  '">Delete</a>';
 
       echo '</div>';
       echo '</div>';

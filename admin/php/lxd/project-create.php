@@ -6,26 +6,26 @@ if (!isset($_SESSION)) {
 
 $remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING));
 $name = escapeshellarg(filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING));
-$project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING));
 
-
-exec("sudo lxc network delete $remote:$name --project $project 2>&1", $output, $return);
+  
+exec("sudo lxc project create $remote:$name 2>&1", $output, $return);
 
 if ($return == 0) {
-  header("Location: ".$_SERVER['HTTP_REFERER']);
-  exit;
+header("Location: ".$_SERVER['HTTP_REFERER']);
+exit;
 }
 else {
-  if ($output == null){
+if ($output == null){
     $_SESSION['alert'] = "There seems to be an undefined error.";
     header("Location: ".$_SERVER['HTTP_REFERER']);
     exit;
-  }
-  else {
+}
+else {
     $_SESSION['alert'] = htmlentities($output[1]);
     header("Location: ".$_SERVER['HTTP_REFERER']);
     exit;
-  }
 }
+}
+
 
 ?>

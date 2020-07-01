@@ -4,14 +4,12 @@ if (!isset($_SESSION)) {
   session_start();
 }
   
-$remote = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
-$name = filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING);
+$remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING));
+$name = escapeshellarg(filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING));
+$project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING));
 
-//remove special characters 
-$name  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$name);
-$remote  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$remote);
 
-exec("sudo lxc profile delete '$remote':'$name' 2>&1", $output, $return);
+exec("sudo lxc profile delete $remote:$name --project $project 2>&1", $output, $return);
 
 if ($return == 0) {
   header("Location: ".$_SERVER['HTTP_REFERER']);
@@ -29,7 +27,5 @@ else {
     exit;
   }
 }
-
-
 
 ?>

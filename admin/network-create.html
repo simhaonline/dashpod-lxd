@@ -115,6 +115,7 @@
                                   <textarea name="yaml" class="form-control" rows="10" ></textarea>
                                 </pre>
                                 <input type="hidden" id="remoteInput" name="remote">
+                                <input type="hidden" id="projectInput" name="project">
                               </div>
                               <hr>
                               <input type="submit" class="btn btn-primary" id="submit" value="Submit">
@@ -217,15 +218,17 @@ type: bridge
 <script>
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const remoteName = encodeURI(urlParams.get('remote')); //encode because it may contain spaces in name
+  const remoteName = urlParams.get('remote'); 
+  const projectName = urlParams.get('project'); 
   document.getElementById("remoteInput").value = remoteName;
+  document.getElementById("projectInput").value = projectName;
 
 
   $(document).ready(function(){
-    $("#hostHeading").text(decodeURI(remoteName) + " - Add Network")
-    $("#hostTitle").text(decodeURI(remoteName) + " - Add Network")
+    $("#hostHeading").text(remoteName + " - Add Network")
+    $("#hostTitle").text(remoteName + " - Add Network")
 
-    $("#networkListTable").load("./php/lxd/network-list.php?remote=" + remoteName);
+    $("#networkListTable").load("./php/lxd/network-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
   });
 

@@ -115,6 +115,7 @@
                                   <textarea name="yaml" class="form-control" id="yamlInput" rows="16" ></textarea>
                                 </pre>
                                 <input type="hidden" id="remoteInput" name="remote">
+                                <input type="hidden" id="projectInput" name="project">
                               </div>
                               <hr>
                               <input type="submit" class="btn btn-primary" id="submit" value="Submit">
@@ -226,18 +227,22 @@ devices:
 <script>
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const remoteName = encodeURI(urlParams.get('remote')); //encode because it may contain spaces in name
-  const profileName = encodeURI(urlParams.get('name')); //encode because it may contain spaces in name
+
+  const remoteName = urlParams.get('remote'); 
+  const profileName = urlParams.get('name'); 
+  const projectName = urlParams.get('project'); 
+
   document.getElementById("remoteInput").value = remoteName;
-  document.getElementById("nameInput").value = decodeURI(profileName);
+  document.getElementById("nameInput").value = profileName;
+  document.getElementById("projectInput").value = projectName;
 
 
   $(document).ready(function(){
-    $("#hostHeading").text(decodeURI(remoteName) + " - Edit Profile")
-    $("#hostTitle").text(decodeURI(remoteName) + " - Edit Profile")
+    $("#hostHeading").text(remoteName + " - Edit Profile")
+    $("#hostTitle").text(remoteName + " - Edit Profile")
 
-    $("#yamlInput").load("./php/lxd/profile-show.php?name=" + profileName + "&remote=" + remoteName);
-    $("#profileListTable").load("./php/lxd/profile-list.php?remote=" + remoteName);
+    $("#yamlInput").load("./php/lxd/profile-show.php?name=" + encodeURI(profileName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#profileListTable").load("./php/lxd/profile-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
   });
 

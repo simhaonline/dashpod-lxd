@@ -4,14 +4,11 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-$remote = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
-$image = filter_var(urldecode($_GET['image']), FILTER_SANITIZE_STRING);
+$remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING));
+$image = escapeshellarg(filter_var(urldecode($_GET['image']), FILTER_SANITIZE_STRING));
+$project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING));
 
-//remove special characters 
-$remote  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$remote);
-$image  = preg_replace('/[^a-zA-Z0-9\.\_\-\/]/s','-',$image);
-
-exec("sudo lxc image copy images:'$image' '$remote': 2>&1", $output, $return);
+exec("sudo lxc image copy images:$image $remote: --project $project 2>&1", $output, $return);
 
 if ($return == 0) {
   header("Location: ".$_SERVER['HTTP_REFERER']);
@@ -29,6 +26,5 @@ else {
     exit;
   }
 }
-
 
 ?>

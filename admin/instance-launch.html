@@ -129,6 +129,7 @@
                     </div>
 
                     <input type="hidden" id="remoteInput" name="remote">
+                    <input type="hidden" id="projectInput" name="project">
 
                     <div class="modal-footer">					
                       <input type="submit" class="btn btn-primary" id="submit" value="Submit">
@@ -216,18 +217,21 @@
 <script>
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const remoteName = encodeURI(urlParams.get('remote')); //encode because it may contain spaces in name
+  const remoteName = urlParams.get('remote');
+  const projectName = urlParams.get('project');
   document.getElementById("remoteInput").value = remoteName;
+  document.getElementById("projectInput").value = projectName;
 
 
 
   $(document).ready(function(){
-    $("#hostHeading").text(decodeURI(remoteName) + " - Add Instance")
-    $("#hostTitle").text(decodeURI(remoteName) + " - Add Instance")
+    $("#hostHeading").text(remoteName + " - Add Instance")
+    $("#hostTitle").text(remoteName + " - Add Instance")
 
-    $("#selectImageInput").load("./php/lxd/image-list-select.php?remote=" + remoteName);
-    $("#selectProfileInput").load("./php/lxd/profile-list-select.php?remote=" + remoteName);
-    $("#instanceListTable").load("./php/lxd/instance-list.php?remote=" + remoteName);
+    $("#instanceListTable").load("./php/lxd/instance-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#selectImageInput").load("./php/lxd/image-list-select.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#selectProfileInput").load("./php/lxd/profile-list-select.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    
 
   });
 

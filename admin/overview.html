@@ -325,16 +325,17 @@
 <script>
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const remoteName = encodeURI(urlParams.get('remote')); //encode because it may contain spaces in name
+  const remoteName = urlParams.get('remote'); 
+  const projectName = urlParams.get('project'); 
 
   $(document).ready(function(){
-    $("#hostHeading").text(decodeURI(remoteName) + " - Overview")
-    $("#hostTitle").text(decodeURI(remoteName) + " - Overview")
-    $("#instanceListTable").load("./php/lxd/instance-list.php?remote=" + remoteName);
-    $("#imageListTable").load("./php/lxd/image-list.php?remote=" + remoteName);
-    $("#networkListTable").load("./php/lxd/network-list.php?remote=" + remoteName);
-    $("#profileListTable").load("./php/lxd/profile-list.php?remote=" + remoteName);
-    $("#trustListTable").load("./php/lxd/trust-list.php?remote=" + remoteName) 
+    $("#hostHeading").text(remoteName + " - Overview")
+    $("#hostTitle").text(remoteName + " - Overview")
+    $("#instanceListTable").load("./php/lxd/instance-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#imageListTable").load("./php/lxd/image-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#networkListTable").load("./php/lxd/network-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#profileListTable").load("./php/lxd/profile-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#trustListTable").load("./php/lxd/trust-list.php?remote=" + encodeURI(remoteName));
   });
 
 
@@ -359,19 +360,19 @@
 
 
   function instanceLaunch(){
-    document.location.href = "instance-launch.html?remote=" + remoteName;
+    document.location.href = "instance-launch.html?remote=" + remoteName + "&project=" + projectName;
   }
 
   function imageCopy(){
-    document.location.href = "image-copy.html?remote=" + remoteName;
+    document.location.href = "image-copy.html?remote=" + remoteName + "&project=" + projectName;
   }
 
   function profileCreate(){
-    document.location.href = "profile-create.html?remote=" + remoteName;
+    document.location.href = "profile-create.html?remote=" + remoteName + "&project=" + projectName;
   }
 
   function networkCreate(){
-    document.location.href = "network-create.html?remote=" + remoteName;
+    document.location.href = "network-create.html?remote=" + remoteName + "&project=" + projectName;
   }
 
 

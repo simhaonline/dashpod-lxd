@@ -193,6 +193,7 @@
             </div>
             <input type="hidden" id="remoteInputSnapshot" name="remote" value="">
             <input type="hidden" id="instanceInputSnapshot" name="name" value="">
+            <input type="hidden" id="projectInputSnapshot" name="project" value="">
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
@@ -226,6 +227,7 @@
             </div>
             <input type="hidden" id="remoteInputCopy" name="remote" value="">
             <input type="hidden" id="instanceInputCopy" name="name" value="">
+            <input type="hidden" id="projectInputCopy" name="project" value="">
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
@@ -292,26 +294,31 @@
 <script>
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const remoteName = encodeURI(urlParams.get('remote')); //encode because it may contain spaces in name
-  const instanceName = encodeURI(urlParams.get('name'));
+  const remoteName = urlParams.get('remote');
+  const instanceName = urlParams.get('name');
+  const projectName = urlParams.get('project');
   const playbookSample = "---\n- hosts: " + instanceName + "\n  tasks:\n  - name: Install Apache2\n    apt:\n      name: apache2\n      state: present";
 
 
   document.getElementById("remoteInputSnapshot").value = remoteName;
   document.getElementById("instanceInputSnapshot").value = instanceName;
+  document.getElementById("projectInputSnapshot").value = projectName;
+
   document.getElementById("remoteInputCopy").value = remoteName;
   document.getElementById("instanceInputCopy").value = instanceName;
+  document.getElementById("projectInputCopy").value = projectName;
+
   document.getElementById("remoteInputPlaybook").value = remoteName;
   document.getElementById("instanceInputPlaybook").value = instanceName;
 
 
   $(document).ready(function(){
-    $("#hostHeading").text(decodeURI(remoteName) + " - Instance")
-    $("#hostTitle").text(decodeURI(remoteName) + " - Instance")
+    $("#hostHeading").text(remoteName + " - Instance")
+    $("#hostTitle").text(remoteName + " - Instance")
 
-    $("#instanceInfoBasic").load("./php/lxd/instance-info-basic.php?name=" + instanceName + "&remote=" + remoteName);
-    $("#instanceInfoDetailed").load("./php/lxd/instance-info-detailed.php?name=" + instanceName + "&remote=" + remoteName);
-    $("#snapshotTableList").load("./php/lxd/instance-snapshot-list.php?name=" + instanceName + "&remote=" + remoteName);
+    $("#instanceInfoBasic").load("./php/lxd/instance-info-basic.php?name=" + encodeURI(instanceName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#instanceInfoDetailed").load("./php/lxd/instance-info-detailed.php?name=" + encodeURI(instanceName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#snapshotTableList").load("./php/lxd/instance-snapshot-list.php?name=" + encodeURI(instanceName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
   
     $("#playbookTextarea").attr('placeholder',playbookSample);
   });

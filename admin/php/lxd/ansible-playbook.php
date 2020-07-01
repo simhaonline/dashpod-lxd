@@ -12,12 +12,6 @@ $filepath = "/tmp/dashpod-profile-" . $time . ".yaml";
 $inventorypath = "/tmp/dashpod-ansible-" . $time . ".yaml";
  
 
-//remove special characters from name
-$name  = preg_replace('/[^a-zA-Z0-9._-]/s','-',$name);
-
-//remove special characters from remote
-$remote  = preg_replace('/[^a-zA-Z0-9._-]/s','-',$remote);
-
 //Construct ansible host file data
 $inventorydata = $name . " ansible_connection=lxd ansible_host=" . $remote . ":" . $name;
 

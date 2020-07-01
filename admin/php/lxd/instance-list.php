@@ -5,18 +5,16 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-$remote = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
-
-//remove special characters 
-$remote  = preg_replace('/[^a-zA-Z0-9\.\_\-]/s','-',$remote);
-
+$remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING));
+$project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING));
+$remote_url = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
+$project_url = filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING);
 
 //Set exec time limit to 10 seconds
 set_time_limit(10);
 
-
 #Get the JSON data
-$results = exec("sudo lxc list '$remote': --format json 2>&1", $output, $return);
+$results = exec("sudo lxc list $remote: --project $project --format json 2>&1", $output, $return);
 
 if ($return == 0 ) {
 
@@ -58,7 +56,7 @@ if ($return == 0 ) {
       echo "<td> <i class='fas fa-cube fa-2x' style='color:#DDDDDD'></i> </td>";
     
     echo "<td>";
-      echo "<a href='./instance.html?name=" . $name . "&remote=" . $remote . "'>";
+      echo "<a href='./instance.html?name=" . $name . "&remote=" . $remote_url . "&project=" . $project_url . "'>";
         echo htmlentities($name);
       echo "</a>";
       echo "<br />";
@@ -108,9 +106,9 @@ if ($return == 0 ) {
       echo '<div class="dropdown-header">Options:</div>';
 
       if ($status == "Running")
-        echo '<a class="dropdown-item" href="./php/lxd/instance-stop.php?name='. $name . '&remote=' . $remote . '">Stop</a>';
+        echo '<a class="dropdown-item" href="./php/lxd/instance-stop.php?name='. $name . '&remote=' . $remote_url .'&project=' . $project_url .  '">Stop</a>';
       else
-        echo '<a class="dropdown-item" href="./php/lxd/instance-start.php?name='. $name . '&remote=' . $remote . '">Start</a>';
+        echo '<a class="dropdown-item" href="./php/lxd/instance-start.php?name='. $name . '&remote=' . $remote_url .'&project=' . $project_url .  '">Start</a>';
 
       echo '</div>';
       echo '</div>';

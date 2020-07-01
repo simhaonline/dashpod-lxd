@@ -116,6 +116,7 @@
                                   <textarea name="yaml" class="form-control" id="yamlInput" rows="10" ></textarea>
                                 </pre>
                                 <input type="hidden" id="remoteInput" name="remote">
+                                <input type="hidden" id="projectInput" name="project">
                               </div>
                               <hr>
                               <input type="submit" class="btn btn-primary" id="submit" value="Submit">
@@ -218,18 +219,21 @@ type: bridge
 <script>
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const remoteName = encodeURI(urlParams.get('remote')); //encode because it may contain spaces in name
-  const networkName = encodeURI(urlParams.get('name')); //encode because it may contain spaces in name
+  const remoteName = urlParams.get('remote'); 
+  const networkName = urlParams.get('name'); 
+  const projectName = urlParams.get('project'); 
+
   document.getElementById("remoteInput").value = remoteName;
   document.getElementById("nameInput").value = decodeURI(networkName);
+  document.getElementById("projectInput").value = projectName;
 
 
   $(document).ready(function(){
-    $("#hostHeading").text(decodeURI(remoteName) + " - Edit Network")
-    $("#hostTitle").text(decodeURI(remoteName) + " - Edit Network")
+    $("#hostHeading").text(remoteName + " - Edit Network")
+    $("#hostTitle").text(remoteName + " - Edit Network")
 
-    $("#networkListTable").load("./php/lxd/network-list.php?remote=" + remoteName);
-    $("#yamlInput").load("./php/lxd/network-show.php?name=" + networkName + "&remote=" + remoteName);
+    $("#networkListTable").load("./php/lxd/network-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#yamlInput").load("./php/lxd/network-show.php?name=" + encodeURI(networkName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
   });
 

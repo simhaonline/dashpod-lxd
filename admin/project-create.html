@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title id="hostTitle">LXC/LXD Add Image</title>
+  <title id="hostTitle">LXC/LXD Add Project</title>
 
   <!-- Custom fonts for this template-->
   <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -82,74 +82,72 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Add Image</h1>
+            <h1 id="hostHeading"class="h3 mb-0 text-gray-800">Add Project</h1>
           </div>
 
           <div class="row">
 
 
             <div class="col-12">
-              <!-- Add Image -->
+              <!-- Add Project-->
               <div class="card shadow mb-4">
-                <a href="#collapseCardAddImage" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardAddImage">
-                  <h6 class="m-0 font-weight-bold text-primary">Image</h6>
+                <a href="#collapseCardProject" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardProject">
+                  <h6 class="m-0 font-weight-bold text-primary">Project</h6>
                 </a>
-                <div class="collapse show" id="collapseCardAddImage">
+                <div class="collapse show" id="collapseCardProject">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-8">
-                        <form action="./php/lxd/image-copy.php" method="GET">
+                        <form action="./php/lxd/project-create.php" method="GET">
                           <div class="row">
-                            <label class="col-2 col-form-label text-right">Image/Version: </label>
-                            <div class="col-6">
+                            <label class="col-2 col-form-label text-right">Name: </label>
+                            <div class="col-8">
                               <div class="form-group">
-                                <input type="text" class="form-control" required="required" placeholder="ubuntu/20.04" name="image">
-                                <input type="hidden" id="remoteInput" name="remote">
-                                <input type="hidden" id="projectInput" name="project">
+                                <input type="text" class="form-control" required="required" placeholder="Profile Name" name="name">
                               </div>
                             </div>
-                            <div class="col-2">
-                              <input type="submit" class="btn btn-primary" id="submit" value="Submit">
+                          </div>
+                          <div class="row">
+                            <label class="col-2 col-form-label text-right">Description: </label>
+                            <div class="col-8">
+                              <div class="form-group">
+                                
+                                <hr>
+                                <input type="submit" class="btn btn-primary" id="submit" value="Submit">
+                              </div>
                             </div>
                           </div>
-
+                          <input type="hidden" id="remoteInput" name="remote">
                         </form>
                       </div>
                       <div class="col-4">
-                        Images are downloaded from the <a target="_blank" href="https://images.linuxcontainers.org/">https://images.linuxcontainers.org/</a> images repository. 
-                        For example, to download Ubuntu 20.04 use <em>ubuntu/20.04</em> or to download CentOS 8 use <em>centos/8</em>. View the repository list to see all options.
+                        <p>Projects allow you to organize your LXD/LXC containers, images, profiles, and storage volumes into seperate isolated groups.</p> 
+                        <p>After creating a new project, you will need to download an image and create a profile before launching instances within that project.</p>
                       </div>
                     </div>
-
-
                   </div>
                 </div>
               </div>
-              <!-- End Add Image -->
+              <!-- End Add Profile -->
             </div>
 
             <div class="col-12">
-              <!-- Image List -->
+              <!-- List Projects-->
               <div class="card shadow mb-4">
-                <a href="#collapseCardImages" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardImages">
-                  <h6 class="m-0 font-weight-bold text-primary">Existing Images</h6>
+                <a href="#collapseCardProjects" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardProjects">
+                  <h6 class="m-0 font-weight-bold text-primary">Existing Projects</h6>
                 </a>
-                <div class="collapse show" id="collapseCardImages">
+                <div class="collapse show" id="collapseCardProjects">
                   <div class="card-body">
                     <div class="table-responsive">
-                      <table class="table" id="imageListTable" width="100%" cellspacing="0">
+                      <table class="table" id="projectListTable" width="100%" cellspacing="0">
                       </table>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- End Image List -->
+              <!-- End List Projects -->
             </div>
-
-
-
-
-
 
           </div>
 
@@ -205,17 +203,16 @@
 <script>
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const remoteName = urlParams.get('remote'); 
-  const projectName = urlParams.get('project');
+  const remoteName = urlParams.get('remote');
   document.getElementById("remoteInput").value = remoteName;
-  document.getElementById("projectInput").value = projectName;
-
 
 
   $(document).ready(function(){
-    $("#hostHeading").text(remoteName + " - Add Image")
-    $("#hostTitle").text(remoteName + " - Add Image")
-    $("#imageListTable").load("./php/lxd/image-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#hostHeading").text(remoteName + " - Add Project")
+    $("#hostTitle").text(remoteName + " - Add Project")
+
+    $("#projectListTable").load("./php/lxd/project-list.php?remote=" + encodeURI(remoteName));
+
   });
 
 
@@ -237,7 +234,7 @@
   ajaxAlert.open("GET", "./php/alert.php", true);
   ajaxAlert.send(null);
 
-
+  
 </script>
 
 </html>
