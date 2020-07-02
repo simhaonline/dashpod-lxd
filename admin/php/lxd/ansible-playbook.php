@@ -34,7 +34,7 @@ unlink($filepath);
 unlink($inventorypath);
 
 
-if ($return == 0) {
+
 $counter = 0;
 foreach ($output as $line){
   if ($couter++ < 1)
@@ -43,18 +43,5 @@ foreach ($output as $line){
 }
   header("Location: ".$_SERVER['HTTP_REFERER']);
   exit;
-}
-else {
-  if ($output == null){
-    $_SESSION['alert'] = "There seems to be an undefined error.";
-    header("Location: ".$_SERVER['HTTP_REFERER']);
-    exit;
-  }
-  else {
-    $_SESSION['alert'] = htmlentities($output[1]);
-    header("Location: ".$_SERVER['HTTP_REFERER']);
-    exit;
-  }
-}
 
 ?>

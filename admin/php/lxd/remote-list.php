@@ -39,8 +39,8 @@ foreach ($items as $item=>$value) {
 
   echo "<tr>";
 
-  echo "<td> <i class='fas fa-server fa-2x' style='color:#4e73df'></i> </td>";
-  echo "<td>" . htmlentities($name) . "</td>"; 
+  echo '<td> <a href="overview.html?remote=' . $name . '&project=default"> <i class="fas fa-server fa-2x" style="color:#4e73df"></i> </a> </td>';
+  echo '<td> <a href="overview.html?remote=' . $name . '&project=default">' . htmlentities($name) . '</a> </td>'; 
   echo "<td>" . htmlentities($addr) . "</td>";
   echo "<td>" . htmlentities($auth_type) . "</td>";
   echo "<td>" . htmlentities($protocol) . "</td>";
@@ -55,7 +55,6 @@ foreach ($items as $item=>$value) {
   echo '<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">';
   echo '<div class="dropdown-header">Options:</div>';
 
-  echo '<a class="dropdown-item" href="project-create.html?remote='. $name . '">Add Project</a>';
   echo '<a class="dropdown-item" href="./php/lxd/remote-remove.php?name='. $name . '">Delete</a>';
 
   echo '</div>';

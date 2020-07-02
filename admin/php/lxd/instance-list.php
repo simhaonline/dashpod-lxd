@@ -51,9 +51,9 @@ if ($return == 0 ) {
     echo "<tr>";
     
     if ($status == "Running")
-      echo "<td> <i class='fas fa-cube fa-2x' style='color:#4e73df'></i> </td>";
+      echo '<td> <a href="instance.html?name="' . $name . '&remote=' . $remote_url . '&project=' . $project_url . '"> <i class="fas fa-cube fa-2x" style="color:#4e73df"></i> </a> </td>';
     else
-      echo "<td> <i class='fas fa-cube fa-2x' style='color:#DDDDDD'></i> </td>";
+      echo '<td> <a href="instance.html?name="' . $name . '&remote=' . $remote_url . '&project=' . $project_url . '"> <i class="fas fa-cube fa-2x" style="color:#dddddd"></i> </a> </td>';
     
     echo "<td>";
       echo "<a href='./instance.html?name=" . $name . "&remote=" . $remote_url . "&project=" . $project_url . "'>";

@@ -27,11 +27,77 @@
 
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-      <div id="navLinks"></div>     
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-      <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <!--<i class="fas fa-server"></i>-->
+        </div>
+        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD/LXC</sup></div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-server"></i>
+          <span>Hosts</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        <Dd id="hostInfoSidebar">LXD Host Info</Dd>
       </div>
+
+      <!-- Project List - Dynamic -->
+      <div id='projectListSidebar'></div>
+
+      <!-- Nav Item - Overview -->
+      <li class="nav-item">
+        <a class="nav-link" id="overviewLinkSidebar" href="#">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Overview</span></a>
+      </li>
+
+      <!-- Nav Item - Instances -->
+      <li class="nav-item">
+        <a class="nav-link" id="instancesLinkSidebar" href="#">
+          <i class="fas fa-fw fa-cube"></i>
+          <span>Instances</span></a>
+      </li>
+
+      <!-- Nav Item - Images -->
+      <li class="nav-item">
+        <a class="nav-link" id="imagesLinkSidebar" href="#">
+          <i class="fas fa-fw fa-box-open"></i>
+          <span>Images</span></a>
+      </li>
+
+      <!-- Nav Item - Networks -->
+      <li class="nav-item">
+        <a class="nav-link" id="networksLinkSidebar" href="#">
+          <i class="fas fa-fw fa-network-wired"></i>
+          <span>Networks</span></a>
+      </li>
+
+      <!-- Nav Item - Profiles -->
+      <li class="nav-item">
+        <a class="nav-link" id="profilesLinkSidebar" href="#">
+          <i class="fas fa-fw fa-address-card"></i>
+          <span>Profiles</span></a>
+      </li>
+
+
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block"> 
+          <!-- Sidebar Toggler (Sidebar) -->
+          <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+          </div>
     </ul>
     <!-- End of Sidebar -->
 
@@ -67,7 +133,7 @@
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="index.html">
                   <i class="fas fa-server fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Home
+                  Hosts
                 </a>
               </div>
             </li>
@@ -82,7 +148,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Add Instance</h1>
+            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Instances</h1>
           </div>
 
           <div class="row">
@@ -92,9 +158,9 @@
               <!-- Add Instance -->
               <div class="card shadow mb-4">
                 <a href="#collapseCardAddInstance" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardAddInstance">
-                  <h6 class="m-0 font-weight-bold text-primary">Instance</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Add Instance</h6>
                 </a>
-                <div class="collapse show" id="collapseCardAddInstance">
+                <div class="collapse" id="collapseCardAddInstance">
                   <div class="card-body">
 
                     <form action="./php/lxd/instance-launch.php" method="GET">
@@ -148,7 +214,7 @@
               <!-- Instance List -->
               <div class="card shadow mb-4">
                 <a href="#collapseCardInstances" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardInstances">
-                  <h6 class="m-0 font-weight-bold text-primary">Existing Instances</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Instances</h6>
                 </a>
                 <div class="collapse show" id="collapseCardInstances">
                   <div class="card-body">
@@ -204,14 +270,6 @@
   <!-- Custom scripts for all pages-->
   <script src="theme/js/sb-admin-2.min.js"></script>
 
-
-  <script>
-    $.get("sidebar.html", function(data){
-        $("#navLinks").replaceWith(data);
-    });
-  </script>
-
-
 </body>
 
 <script>
@@ -225,13 +283,21 @@
 
 
   $(document).ready(function(){
-    $("#hostHeading").text(remoteName + " - Add Instance")
-    $("#hostTitle").text(remoteName + " - Add Instance")
 
+    $("#hostHeading").text(remoteName + " - Instances")
+    $("#hostTitle").text(remoteName + " - Instances")
+    $("#hostInfoSidebar").text("LXD Host: " + remoteName);
+
+    $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#instancesLinkSidebar").attr("href", "instances.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+
+    $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#instanceListTable").load("./php/lxd/instance-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#selectImageInput").load("./php/lxd/image-list-select.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#selectProfileInput").load("./php/lxd/profile-list-select.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    
 
   });
 

@@ -67,7 +67,7 @@ foreach ($items as $item) {
       echo '</a>';
     }
 
-    if ($status == "Running"){
+    if ($status == "Running" && $project_url == "default"){
       echo " | ";
       echo '<a href="#" data-toggle="modal" data-target="#playbookInstanceModal">';
         echo "Playbook";
@@ -88,7 +88,7 @@ echo '<div class="col-6">';
   echo "Image: " . htmlentities($image) . "<br />";
   echo "Memory: " . htmlentities($memory) . " MB<br />";
 
-  echo "Profiles: ";
+  echo "Profile: ";
   $i = 0;
   foreach ($profiles as $profile) {
     if ($i > 0)

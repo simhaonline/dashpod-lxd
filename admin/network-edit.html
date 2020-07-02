@@ -27,11 +27,77 @@
 
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-      <div id="navLinks"></div>     
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-      <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <!--<i class="fas fa-server"></i>-->
+        </div>
+        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD/LXC</sup></div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-server"></i>
+          <span>Hosts</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        <Dd id="hostInfoSidebar">LXD Host Info</Dd>
       </div>
+
+      <!-- Project List - Dynamic -->
+      <div id='projectListSidebar'></div>
+
+      <!-- Nav Item - Overview -->
+      <li class="nav-item">
+        <a class="nav-link" id="overviewLinkSidebar" href="#">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Overview</span></a>
+      </li>
+
+      <!-- Nav Item - Instances -->
+      <li class="nav-item">
+        <a class="nav-link" id="instancesLinkSidebar" href="#">
+          <i class="fas fa-fw fa-cube"></i>
+          <span>Instances</span></a>
+      </li>
+
+      <!-- Nav Item - Images -->
+      <li class="nav-item">
+        <a class="nav-link" id="imagesLinkSidebar" href="#">
+          <i class="fas fa-fw fa-box-open"></i>
+          <span>Images</span></a>
+      </li>
+
+      <!-- Nav Item - Networks -->
+      <li class="nav-item">
+        <a class="nav-link" id="networksLinkSidebar" href="#">
+          <i class="fas fa-fw fa-network-wired"></i>
+          <span>Networks</span></a>
+      </li>
+
+      <!-- Nav Item - Profiles -->
+      <li class="nav-item">
+        <a class="nav-link" id="profilesLinkSidebar" href="#">
+          <i class="fas fa-fw fa-address-card"></i>
+          <span>Profiles</span></a>
+      </li>
+
+
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block"> 
+          <!-- Sidebar Toggler (Sidebar) -->
+          <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+          </div>
     </ul>
     <!-- End of Sidebar -->
 
@@ -68,7 +134,7 @@
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="index.html">
                   <i class="fas fa-server fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Home
+                  Hosts
                 </a>
               </div>
             </li>
@@ -90,7 +156,7 @@
 
 
             <div class="col-12">
-              <!-- Add Profile-->
+              <!-- Edit Network-->
               <div class="card shadow mb-4">
                 <a href="#collapseCardNetwork" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardNetwork">
                   <h6 class="m-0 font-weight-bold text-primary">Network</h6>
@@ -144,14 +210,14 @@ type: bridge
                   </div>
                 </div>
               </div>
-              <!-- End Add Profile -->
+              <!-- End Edit Network -->
             </div>
 
             <div class="col-12">
-              <!-- Add Profile-->
+              <!-- Network List -->
               <div class="card shadow mb-4">
                 <a href="#collapseCardNetworks" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardNetworks">
-                  <h6 class="m-0 font-weight-bold text-primary">Existing Networks</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Networks</h6>
                 </a>
                 <div class="collapse show" id="collapseCardNetworks">
                   <div class="card-body">
@@ -162,7 +228,7 @@ type: bridge
                   </div>
                 </div>
               </div>
-              <!-- End Add Profile -->
+              <!-- End Network List -->
             </div>
 
           </div>
@@ -206,14 +272,6 @@ type: bridge
   <!-- Custom scripts for all pages-->
   <script src="theme/js/sb-admin-2.min.js"></script>
 
-
-  <script>
-    $.get("sidebar.html", function(data){
-        $("#navLinks").replaceWith(data);
-    });
-  </script>
-
-
 </body>
 
 <script>
@@ -227,11 +285,18 @@ type: bridge
   document.getElementById("nameInput").value = decodeURI(networkName);
   document.getElementById("projectInput").value = projectName;
 
-
   $(document).ready(function(){
     $("#hostHeading").text(remoteName + " - Edit Network")
     $("#hostTitle").text(remoteName + " - Edit Network")
+    $("#hostInfoSidebar").text("LXD Host: " + remoteName);
 
+    $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#instancesLinkSidebar").attr("href", "instances.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+
+    $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#networkListTable").load("./php/lxd/network-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#yamlInput").load("./php/lxd/network-show.php?name=" + encodeURI(networkName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 

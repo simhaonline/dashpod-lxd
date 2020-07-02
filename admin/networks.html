@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title id="hostTitle">LXC/LXD Add Profile</title>
+  <title id="hostTitle">LXC/LXD Add Network</title>
 
   <!-- Custom fonts for this template-->
   <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -27,11 +27,77 @@
 
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-      <div id="navLinks"></div>     
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-      <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <!--<i class="fas fa-server"></i>-->
+        </div>
+        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD/LXC</sup></div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-server"></i>
+          <span>Hosts</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        <Dd id="hostInfoSidebar">LXD Host Info</Dd>
       </div>
+
+      <!-- Project List - Dynamic -->
+      <div id='projectListSidebar'></div>
+
+      <!-- Nav Item - Overview -->
+      <li class="nav-item">
+        <a class="nav-link" id="overviewLinkSidebar" href="#">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Overview</span></a>
+      </li>
+
+      <!-- Nav Item - Instances -->
+      <li class="nav-item">
+        <a class="nav-link" id="instancesLinkSidebar" href="#">
+          <i class="fas fa-fw fa-cube"></i>
+          <span>Instances</span></a>
+      </li>
+
+      <!-- Nav Item - Images -->
+      <li class="nav-item">
+        <a class="nav-link" id="imagesLinkSidebar" href="#">
+          <i class="fas fa-fw fa-box-open"></i>
+          <span>Images</span></a>
+      </li>
+
+      <!-- Nav Item - Networks -->
+      <li class="nav-item">
+        <a class="nav-link" id="networksLinkSidebar" href="#">
+          <i class="fas fa-fw fa-network-wired"></i>
+          <span>Networks</span></a>
+      </li>
+
+      <!-- Nav Item - Profiles -->
+      <li class="nav-item">
+        <a class="nav-link" id="profilesLinkSidebar" href="#">
+          <i class="fas fa-fw fa-address-card"></i>
+          <span>Profiles</span></a>
+      </li>
+
+
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block"> 
+          <!-- Sidebar Toggler (Sidebar) -->
+          <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+          </div>
     </ul>
     <!-- End of Sidebar -->
 
@@ -67,7 +133,7 @@
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="index.html">
                   <i class="fas fa-server fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Home
+                  Hosts
                 </a>
               </div>
             </li>
@@ -82,7 +148,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Add Profile</h1>
+            <h1 id="hostHeading"class="h3 mb-0 text-gray-800">Networks</h1>
           </div>
 
           <div class="row">
@@ -91,14 +157,14 @@
             <div class="col-12">
               <!-- Add Profile-->
               <div class="card shadow mb-4">
-                <a href="#collapseCardAddProfile" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardAddProfile">
-                  <h6 class="m-0 font-weight-bold text-primary">Profile</h6>
+                <a href="#collapseCardNetwork" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardNetwork">
+                  <h6 class="m-0 font-weight-bold text-primary">Add Network</h6>
                 </a>
-                <div class="collapse show" id="collapseCardAddProfile">
+                <div class="collapse" id="collapseCardNetwork">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-8">
-                        <form action="./php/lxd/profile-create.php" method="POST">
+                        <form action="./php/lxd/network-create.php" method="POST">
                           <div class="row">
                             <label class="col-2 col-form-label text-right">Name: </label>
                             <div class="col-8">
@@ -112,7 +178,7 @@
                             <div class="col-8 text-right">
                               <div class="form-group">
                                 <pre>
-                                  <textarea name="yaml" class="form-control" rows="16" ></textarea>
+                                  <textarea name="yaml" class="form-control" rows="10" ></textarea>
                                 </pre>
                                 <input type="hidden" id="remoteInput" name="remote">
                                 <input type="hidden" id="projectInput" name="project">
@@ -125,26 +191,17 @@
                         </form>
                       </div>
                       <div class="col-4">
-                        <p>New profiles can be defined by using a YAML configuration.</p> 
-                        <p>Below is an example of a YAML configuration that can be used to create a new profile.</p>
+                        <p>New networks can be defined by using a YAML configuration.</p> 
+                        <p>Below is an example of a YAML configuration that can be used to create a new network.</p>
 <pre>
-<textarea readonly rows="16" class="form-control">
-config: {}
-description: Example profile
-devices:
-  eth0:
-    name: eth0
-    network: lxdbr0
-    type: nic
-  eth1:
-    name: eth1
-    nictype: macvlan
-    parent: eno1
-    type: nic
-  root:
-    path: /
-    pool: default
-    type: disk
+<textarea readonly rows="10" class="form-control">
+config:
+  ipv4.address: 10.50.100.1/24
+  ipv4.nat: "true"
+  ipv6.address: fd42:6187:75aa:20dd::1/64
+  ipv6.nat: "true"
+description: "Example Network"
+type: bridge
 </textarea>
 </pre>
                       </div>
@@ -158,13 +215,13 @@ devices:
             <div class="col-12">
               <!-- Add Profile-->
               <div class="card shadow mb-4">
-                <a href="#collapseCardProfiles" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardProfiles">
-                  <h6 class="m-0 font-weight-bold text-primary">Existing Profiles</h6>
+                <a href="#collapseCardNetworks" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardNetworks">
+                  <h6 class="m-0 font-weight-bold text-primary">Networks</h6>
                 </a>
-                <div class="collapse show" id="collapseCardProfiles">
+                <div class="collapse show" id="collapseCardNetworks">
                   <div class="card-body">
                     <div class="table-responsive">
-                      <table class="table" id="profileListTable" width="100%" cellspacing="0">
+                      <table class="table" id="networkListTable" width="100%" cellspacing="0">
                       </table>
                     </div>
                   </div>
@@ -214,14 +271,6 @@ devices:
   <!-- Custom scripts for all pages-->
   <script src="theme/js/sb-admin-2.min.js"></script>
 
-
-  <script>
-    $.get("sidebar.html", function(data){
-        $("#navLinks").replaceWith(data);
-    });
-  </script>
-
-
 </body>
 
 <script>
@@ -229,15 +278,24 @@ devices:
   const urlParams = new URLSearchParams(queryString);
   const remoteName = urlParams.get('remote'); 
   const projectName = urlParams.get('project'); 
-
   document.getElementById("remoteInput").value = remoteName;
   document.getElementById("projectInput").value = projectName;
 
-  $(document).ready(function(){
-    $("#hostHeading").text(remoteName + " - Add Profile");
-    $("#hostTitle").text(remoteName + " - Add Profile");
 
-    $("#profileListTable").load("./php/lxd/profile-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+  $(document).ready(function(){
+
+    $("#hostHeading").text(remoteName + " - Networks")
+    $("#hostTitle").text(remoteName + " - Networks")
+    $("#hostInfoSidebar").text("LXD Host: " + remoteName);
+
+    $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#instancesLinkSidebar").attr("href", "instances.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+
+    $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#networkListTable").load("./php/lxd/network-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
   });
 

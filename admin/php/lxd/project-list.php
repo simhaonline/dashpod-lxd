@@ -5,7 +5,9 @@ if (!isset($_SESSION)) {
 }
 
 $remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING));
+$project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING));
 $remote_url = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
+$project_url = filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING);
 
 //Set exec time limit to 10 seconds
 set_time_limit(10);
@@ -61,8 +63,8 @@ if ($return == 0 ) {
     echo '</a>';
     echo '<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">';
     echo '<div class="dropdown-header">Options:</div>';
-    echo '<a class="dropdown-item" href="project-edit.html?name='. $name . '&remote=' . $remote_url . '">Edit</a>';
-    echo '<a class="dropdown-item" href="./php/lxd/project-delete.php?name='. $name . '&remote=' . $remote_url . '">Delete</a>';
+    echo '<a class="dropdown-item" href="project-edit.html?name='. $name . '&remote=' . $remote_url .'&project=' . $project_url .  '">Edit</a>';
+    echo '<a class="dropdown-item" href="./php/lxd/project-delete.php?name='. $name . '&remote=' . $remote_url .'&project=' . $project_url .  '">Delete</a>';
 
     echo '</div>';
     echo '</div>';

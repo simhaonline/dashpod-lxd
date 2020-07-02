@@ -18,7 +18,6 @@
   <!-- Custom styles for this template-->
   <link href="theme/css/sb-admin-2.min.css" rel="stylesheet">
 
-
 </head>
 
 <body id="page-top">
@@ -28,11 +27,77 @@
 
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-      <div id="navLinks"></div>     
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-      <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <!--<i class="fas fa-server"></i>-->
+        </div>
+        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD/LXC</sup></div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-server"></i>
+          <span>Hosts</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        <Dd id="hostInfoSidebar">LXD Host Info</Dd>
       </div>
+
+      <!-- Project List - Dynamic -->
+      <div id='projectListSidebar'></div>
+
+      <!-- Nav Item - Overview -->
+      <li class="nav-item">
+        <a class="nav-link" id="overviewLinkSidebar" href="#">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Overview</span></a>
+      </li>
+
+      <!-- Nav Item - Instances -->
+      <li class="nav-item">
+        <a class="nav-link" id="instancesLinkSidebar" href="#">
+          <i class="fas fa-fw fa-cube"></i>
+          <span>Instances</span></a>
+      </li>
+
+      <!-- Nav Item - Images -->
+      <li class="nav-item">
+        <a class="nav-link" id="imagesLinkSidebar" href="#">
+          <i class="fas fa-fw fa-box-open"></i>
+          <span>Images</span></a>
+      </li>
+
+      <!-- Nav Item - Networks -->
+      <li class="nav-item">
+        <a class="nav-link" id="networksLinkSidebar" href="#">
+          <i class="fas fa-fw fa-network-wired"></i>
+          <span>Networks</span></a>
+      </li>
+
+      <!-- Nav Item - Profiles -->
+      <li class="nav-item">
+        <a class="nav-link" id="profilesLinkSidebar" href="#">
+          <i class="fas fa-fw fa-address-card"></i>
+          <span>Profiles</span></a>
+      </li>
+
+
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block"> 
+          <!-- Sidebar Toggler (Sidebar) -->
+          <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+          </div>
     </ul>
     <!-- End of Sidebar -->
 
@@ -60,7 +125,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="#instanceAnchor">
                   <span class="mr-2 d-none d-lg-inline small text-primary">
-                    Instances
+                    #Instances
                   </span>
                 </a> 
               </li>
@@ -68,7 +133,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="#imageAnchor">
                   <span class="mr-2 d-none d-lg-inline small text-primary">
-                    Images
+                    #Images
                   </span>
                 </a> 
               </li>
@@ -76,7 +141,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="#networkAnchor">
                   <span class="mr-2 d-none d-lg-inline small text-primary">
-                    Networks
+                    #Networks
                   </span>
                 </a> 
               </li>
@@ -84,7 +149,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="#profileAnchor">
                   <span class="mr-2 d-none d-lg-inline small text-primary">
-                    Profiles
+                    #Profiles
                   </span>
                 </a> 
               </li>
@@ -92,7 +157,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="#trustAnchor">
                   <span class="mr-2 d-none d-lg-inline small text-primary">
-                    Trusts
+                    #Trusts
                   </span>
                 </a> 
               </li>
@@ -111,7 +176,7 @@
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="index.html">
                   <i class="fas fa-server fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Home
+                  Hosts
                 </a>
               </div>
             </li>
@@ -145,7 +210,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" onclick="instanceLaunch()" href="#">New Instance</a>
+                      <a class="dropdown-item" onclick="manageInstances()" href="#">Manage Instances</a>
                     </div>
                   </div>
                 </div>
@@ -174,7 +239,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" onclick="imageCopy()" href="#">New Image</a>
+                      <a class="dropdown-item" onclick="manageImages()" href="#">Manage Images</a>
                     </div>
                   </div>
                 </div>
@@ -203,7 +268,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" onclick="networkCreate()" href="#">New Network</a>
+                      <a class="dropdown-item" onclick="manageNetworks()" href="#">Manage Networks</a>
                     </div>
                   </div>
                 </div>
@@ -232,7 +297,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" onclick="profileCreate()" href="#">New Profile</a>
+                      <a class="dropdown-item" onclick="manageProfiles()" href="#">Manage Profiles</a>
                     </div>
                   </div>
                 </div>
@@ -310,16 +375,6 @@
   <!-- Custom scripts for all pages-->
   <script src="theme/js/sb-admin-2.min.js"></script>
 
-
-
-
-  <script>
-    $.get("sidebar.html", function(data){
-        $("#navLinks").replaceWith(data);
-    });
-  </script>
-
-
 </body>
 
 <script>
@@ -331,6 +386,15 @@
   $(document).ready(function(){
     $("#hostHeading").text(remoteName + " - Overview")
     $("#hostTitle").text(remoteName + " - Overview")
+    $("#hostInfoSidebar").text("LXD Host: " + remoteName);
+
+    $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#instancesLinkSidebar").attr("href", "instances.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+
+    $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#instanceListTable").load("./php/lxd/instance-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#imageListTable").load("./php/lxd/image-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#networkListTable").load("./php/lxd/network-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
@@ -359,20 +423,20 @@
   ajaxAlert.send(null);
 
 
-  function instanceLaunch(){
-    document.location.href = "instance-launch.html?remote=" + remoteName + "&project=" + projectName;
+  function manageInstances(){
+    document.location.href = "instances.html?remote=" + remoteName + "&project=" + projectName;
   }
 
-  function imageCopy(){
-    document.location.href = "image-copy.html?remote=" + remoteName + "&project=" + projectName;
+  function manageImages(){
+    document.location.href = "images.html?remote=" + remoteName + "&project=" + projectName;
   }
 
-  function profileCreate(){
-    document.location.href = "profile-create.html?remote=" + remoteName + "&project=" + projectName;
+  function manageProfiles(){
+    document.location.href = "profiles.html?remote=" + remoteName + "&project=" + projectName;
   }
 
-  function networkCreate(){
-    document.location.href = "network-create.html?remote=" + remoteName + "&project=" + projectName;
+  function manageNetworks(){
+    document.location.href = "networks.html?remote=" + remoteName + "&project=" + projectName;
   }
 
 
