@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title id="hostTitle">LXC/LXD Edit Project</title>
+  <title id="hostTitle">LXC/LXD Edit Storage Pool</title>
 
   <!-- Custom fonts for this template-->
   <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -153,23 +153,23 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Edit Project</h1>
+            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Edit Storage Pool</h1>
           </div>
 
           <div class="row">
 
 
             <div class="col-12">
-              <!-- Edit Project-->
+              <!-- Edit Storage Pool-->
               <div class="card shadow mb-4">
-                <a href="#collapseCardProject" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardProject">
-                  <h6 class="m-0 font-weight-bold text-primary">Project</h6>
+                <a href="#collapseCardStoragePool" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardStoragePool">
+                  <h6 class="m-0 font-weight-bold text-primary">Storage Pool</h6>
                 </a>
-                <div class="collapse show" id="collapseCardProject">
+                <div class="collapse show" id="collapseCardStoragePool">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-8">
-                        <form action="./php/lxd/project-edit.php" method="POST">
+                        <form action="./php/lxd/storage-pool-edit.php" method="POST">
                           <div class="row">
                             <label class="col-2 col-form-label text-right">Name: </label>
                             <div class="col-8">
@@ -186,6 +186,7 @@
                                   <textarea name="yaml" class="form-control" id="yamlInput" rows="16" ></textarea>
                                 </pre>
                                 <input type="hidden" id="remoteInput" name="remote">
+                                <input type="hidden" id="projectInput" name="project">
                               </div>
                               <hr>
                               <input type="submit" class="btn btn-primary" id="submit" value="Submit">
@@ -195,15 +196,15 @@
                         </form>
                       </div>
                       <div class="col-4">
-                        <p>Projects can be defined by using a YAML configuration.</p> 
+                        <p>Storage Pools can be defined by using a YAML configuration.</p> 
                         <p>Below is an example of a YAML configuration.</p>
 <pre>
 <textarea readonly rows="16" class="form-control">
-- description: Sample project
-  config:
-    features.images: "true"
-    features.profiles: "true"
-    features.storage.volumes: "true"
+config:
+  size: 100GB
+  source: /var/lxd/disks/example.img
+  zfs.pool_name: example
+description: "Example Storage Pool"
 </textarea>
 </pre>
                       </div>
@@ -211,25 +212,25 @@
                   </div>
                 </div>
               </div>
-              <!-- End Edit Project -->
+              <!-- End Edit Storage Pool -->
             </div>
 
             <div class="col-12">
-              <!-- Projects List -->
+              <!-- Profile List -->
               <div class="card shadow mb-4">
-                <a href="#collapseCardProjects" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardProjects">
-                  <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+                <a href="#collapseCardStoragePools" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardStoragePools">
+                  <h6 class="m-0 font-weight-bold text-primary">Storage Pools</h6>
                 </a>
-                <div class="collapse show" id="collapseCardProjects">
+                <div class="collapse show" id="collapseCardStoragePools">
                   <div class="card-body">
                     <div class="table-responsive">
-                      <table class="table" id="projectListTable" width="100%" cellspacing="0">
+                      <table class="table" id="storagePoolListTable" width="100%" cellspacing="0">
                       </table>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- End Projects List -->
+              <!-- End Profile List -->
             </div>
 
           </div>
@@ -278,17 +279,18 @@
 <script>
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
+
   const remoteName = urlParams.get('remote'); 
-  const profileName = urlParams.get('name');
+  const profileName = urlParams.get('name'); 
   const projectName = urlParams.get('project'); 
 
   document.getElementById("remoteInput").value = remoteName;
-  document.getElementById("nameInput").value = decodeURI(profileName);
+  document.getElementById("nameInput").value = profileName;
+  document.getElementById("projectInput").value = projectName;
 
   $(document).ready(function(){
-
-    $("#hostHeading").text(remoteName + " - Edit Project")
-    $("#hostTitle").text(remoteName + " - Edit Project")
+    $("#hostHeading").text(remoteName + " - Edit Profile")
+    $("#hostTitle").text(remoteName + " - Edit Profile")
     $("#hostInfoSidebar").text("LXD Host: " + remoteName);
 
     $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
@@ -299,9 +301,8 @@
     $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
     $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#yamlInput").load("./php/lxd/project-show.php?name=" + encodeURI(profileName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#projectListTable").load("./php/lxd/project-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-
+    $("#yamlInput").load("./php/lxd/storage-pool-show.php?name=" + encodeURI(profileName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#storagePoolListTable").load("./php/lxd/storage-pool-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
   });
 

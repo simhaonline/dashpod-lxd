@@ -90,7 +90,12 @@
           <span>Profiles</span></a>
       </li>
 
-
+      <!-- Nav Item - Storage Pools-->
+      <li class="nav-item">
+        <a class="nav-link" id="storagePoolsLinkSidebar" href="#">
+          <i class="fas fa-fw fa-hdd"></i>
+          <span>Storage Pools</span></a>
+      </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block"> 
@@ -168,14 +173,8 @@
                           <div class="row">
                             <label class="col-2 col-form-label text-right">Name: </label>
                             <div class="col-8">
-                              <div class="form-group">
-                                <input type="text" class="form-control" required="required" placeholder="Profile Name" name="name">
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-8">
                               <div class="form-group text-right">
+                                <input type="text" class="form-control" required="required" placeholder="Profile Name" name="name">
                                 <hr>
                                 <input type="submit" class="btn btn-primary" id="submit" value="Submit">
                               </div>
@@ -275,6 +274,7 @@
     $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
     $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#projectListTable").load("./php/lxd/project-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));

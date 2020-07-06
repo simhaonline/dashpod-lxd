@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title id="hostTitle">LXC/LXD Add Profile</title>
+  <title id="hostTitle">LXC/LXD Profiles</title>
 
   <!-- Custom fonts for this template-->
   <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -90,7 +90,12 @@
           <span>Profiles</span></a>
       </li>
 
-
+      <!-- Nav Item - Storage Pools-->
+      <li class="nav-item">
+        <a class="nav-link" id="storagePoolsLinkSidebar" href="#">
+          <i class="fas fa-fw fa-hdd"></i>
+          <span>Storage Pools</span></a>
+      </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block"> 
@@ -222,7 +227,7 @@ devices:
             </div>
 
             <div class="col-12">
-              <!-- Add Profile-->
+              <!-- Profile List -->
               <div class="card shadow mb-4">
                 <a href="#collapseCardProfiles" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardProfiles">
                   <h6 class="m-0 font-weight-bold text-primary">Profiles</h6>
@@ -236,7 +241,7 @@ devices:
                   </div>
                 </div>
               </div>
-              <!-- End Add Profile -->
+              <!-- End Profile List -->
             </div>
 
           </div>
@@ -293,8 +298,8 @@ devices:
 
   $(document).ready(function(){
 
-    $("#hostHeading").text(remoteName + " - Add Profile");
-    $("#hostTitle").text(remoteName + " - Add Profile");
+    $("#hostHeading").text(remoteName + " - Profiles");
+    $("#hostTitle").text(remoteName + " - Profiles");
     $("#hostInfoSidebar").text("LXD Host: " + remoteName);
 
     $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
@@ -302,6 +307,7 @@ devices:
     $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
     $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#profileListTable").load("./php/lxd/profile-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));

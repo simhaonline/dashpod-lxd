@@ -90,7 +90,12 @@
           <span>Profiles</span></a>
       </li>
 
-
+      <!-- Nav Item - Storage Pools-->
+      <li class="nav-item">
+        <a class="nav-link" id="storagePoolsLinkSidebar" href="#">
+          <i class="fas fa-fw fa-hdd"></i>
+          <span>Storage Pools</span></a>
+      </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block"> 
@@ -123,7 +128,7 @@
 
 
               <li class="nav-item">
-                <a class="nav-link" href="#instanceAnchor">
+                <a class="nav-link" href="#instancesAnchor">
                   <span class="mr-2 d-none d-lg-inline small text-primary">
                     #Instances
                   </span>
@@ -131,7 +136,7 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="#imageAnchor">
+                <a class="nav-link" href="#imagesAnchor">
                   <span class="mr-2 d-none d-lg-inline small text-primary">
                     #Images
                   </span>
@@ -139,7 +144,7 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="#networkAnchor">
+                <a class="nav-link" href="#networksAnchor">
                   <span class="mr-2 d-none d-lg-inline small text-primary">
                     #Networks
                   </span>
@@ -147,7 +152,7 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="#profileAnchor">
+                <a class="nav-link" href="#profilesAnchor">
                   <span class="mr-2 d-none d-lg-inline small text-primary">
                     #Profiles
                   </span>
@@ -155,7 +160,15 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="#trustAnchor">
+                <a class="nav-link" href="#storagePoolsAnchor">
+                  <span class="mr-2 d-none d-lg-inline small text-primary">
+                    #Storage Pools
+                  </span>
+                </a> 
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#trustsAnchor">
                   <span class="mr-2 d-none d-lg-inline small text-primary">
                     #Trusts
                   </span>
@@ -201,7 +214,7 @@
               <!-- Instance List -->
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
-                <a id="instanceAnchor"></a>
+                <a id="instancesAnchor"></a>
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Instances</h6>
                   <div class="dropdown no-arrow">
@@ -230,7 +243,7 @@
               <!-- Image List -->
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
-                <a id="imageAnchor"></a>
+                <a id="imagesAnchor"></a>
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Images</h6>
                   <div class="dropdown no-arrow">
@@ -261,7 +274,7 @@
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Networks</h6>
-                  <a id="networkAnchor"></a>
+                  <a id="networksAnchor"></a>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -290,7 +303,7 @@
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Profiles</h6>
-                  <a id="profileAnchor"></a>
+                  <a id="profilesAnchor"></a>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -314,9 +327,38 @@
 
 
             <div class="col-12">
+              <!-- Storage Pool List -->
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Storage Pools</h6>
+                  <a id="storagePoolsAnchor"></a>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Options:</div>
+                      <a class="dropdown-item" onclick="manageStoragePools()" href="#">Manage Storage Pools</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table" id="storagePoolListTable" width="100%" cellspacing="0">
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- End Storage Pool List -->
+            </div>
+
+
+            <div class="col-12">
               <!-- Trust List -->
               <div class="card shadow mb-4">
-                <a id="trustAnchor"></a>
+                <a id="trustsAnchor"></a>
                 <a href="#collapseCardTrusts" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardTrusts">
                   <h6 class="m-0 font-weight-bold text-primary">LXC Config Trusts</h6>
                 </a>
@@ -393,12 +435,14 @@
     $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
     $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#instanceListTable").load("./php/lxd/instance-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#imageListTable").load("./php/lxd/image-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#networkListTable").load("./php/lxd/network-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#profileListTable").load("./php/lxd/profile-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#storagePoolListTable").load("./php/lxd/storage-pool-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#trustListTable").load("./php/lxd/trust-list.php?remote=" + encodeURI(remoteName));
   });
 
@@ -437,6 +481,10 @@
 
   function manageNetworks(){
     document.location.href = "networks.html?remote=" + remoteName + "&project=" + projectName;
+  }
+
+  function manageStoragePools(){
+    document.location.href = "storage-pools.html?remote=" + remoteName + "&project=" + projectName;
   }
 
 

@@ -90,7 +90,12 @@
           <span>Profiles</span></a>
       </li>
 
-
+      <!-- Nav Item - Storage Pools-->
+      <li class="nav-item">
+        <a class="nav-link" id="storagePoolsLinkSidebar" href="#">
+          <i class="fas fa-fw fa-hdd"></i>
+          <span>Storage Pools</span></a>
+      </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block"> 
@@ -157,10 +162,10 @@
             <div class="col-12">
               <!-- Edit Profile-->
               <div class="card shadow mb-4">
-                <a href="#collapseCardAddProfile" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardAddProfile">
+                <a href="#collapseCardProfile" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardProfile">
                   <h6 class="m-0 font-weight-bold text-primary">Profile</h6>
                 </a>
-                <div class="collapse show" id="collapseCardAddProfile">
+                <div class="collapse show" id="collapseCardProfile">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-8">
@@ -304,6 +309,7 @@ devices:
     $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
     $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#yamlInput").load("./php/lxd/profile-show.php?name=" + encodeURI(profileName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
