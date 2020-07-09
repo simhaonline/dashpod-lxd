@@ -9,7 +9,9 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title id="hostTitle">LXC/LXD Edit Project</title>
+  <link rel="icon" type="image/png" href="theme/images/logo-white.png">
+  
+  <title>Dashpod</title>
 
   <!-- Custom fonts for this template-->
   <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -47,13 +49,18 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider">
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        <Dd id="hostInfoSidebar">LXD Host Info</Dd>
-      </div>
 
       <!-- Project List - Dynamic -->
-      <div id='projectListSidebar'></div>
+      <div id='projectListSidebar'>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-project-diagram"></i>
+            <span>Project:</span></a>
+        </li>
+      </div>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
 
       <!-- Nav Item - Overview -->
       <li class="nav-item">
@@ -151,10 +158,14 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Edit Project</h1>
-          </div>
+          <!-- BreadCrumb -->
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#" id="remoteBreadCrumb"></a></li>
+              <li class="breadcrumb-item"><a href="#" id="projectsBreadCrumb"></a></li>
+              <li class="breadcrumb-item active" aria-current="page" id="projectEditBreadCrumb"></li>
+            </ol>
+          </nav>
 
           <div class="row">
 
@@ -279,28 +290,31 @@
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const remoteName = urlParams.get('remote'); 
-  const profileName = urlParams.get('name');
-  const projectName = urlParams.get('project'); 
+  const projectName = urlParams.get('name');
+  const projectURL = urlParams.get('project'); 
 
   document.getElementById("remoteInput").value = remoteName;
-  document.getElementById("nameInput").value = decodeURI(profileName);
+  document.getElementById("nameInput").value = decodeURI(projectName);
 
   $(document).ready(function(){
 
-    $("#hostHeading").text(remoteName + " - Edit Project")
-    $("#hostTitle").text(remoteName + " - Edit Project")
+    $('#remoteBreadCrumb').text(remoteName);
+    $('#remoteBreadCrumb').attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectURL));
+    $('#projectsBreadCrumb').text("projects");
+    $('#projectsBreadCrumb').attr("href", "projects.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectURL));
+    $('#projectEditBreadCrumb').text(projectName);
     $("#hostInfoSidebar").text("LXD Host: " + remoteName);
 
-    $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#instancesLinkSidebar").attr("href", "instances.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectURL));
+    $("#instancesLinkSidebar").attr("href", "instances.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectURL));
+    $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectURL));
+    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectURL));
+    $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectURL));
+    $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectURL));
 
-    $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#yamlInput").load("./php/lxd/project-show.php?name=" + encodeURI(profileName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#projectListTable").load("./php/lxd/project-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectURL));
+    $("#yamlInput").load("./php/lxd/project-show.php?name=" + encodeURI(projectName) + "&remote=" + encodeURI(remoteName));
+    $("#projectListTable").load("./php/lxd/project-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectURL));
 
 
   });

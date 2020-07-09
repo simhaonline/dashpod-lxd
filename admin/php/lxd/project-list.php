@@ -9,9 +9,6 @@ $project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZ
 $remote_url = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
 $project_url = filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING);
 
-//Set exec time limit to 10 seconds
-set_time_limit(10);
-
 #Get the JSON data
 $results = exec("sudo lxc project list $remote: --format json 2>&1", $output, $return);
 
@@ -47,16 +44,16 @@ if ($return == 0 ) {
     echo "<tr>";
     
     
-    echo "<td> <i class='fas fa-network-wired fa-2x' style='color:#4e73df'></i> </td>";
+    echo '<td> <a href="overview.html?remote=' . $remote_url . '&project=' . $name . '"> <i class="fas fa-project-diagram fa-2x" style="color:#4e73df"></i> </a> </td>';
 
     
-    echo "<td>" . htmlentities($name) . "</td>";
+    echo '<td> <a href="overview.html?remote=' . $remote_url . '&project=' . $name . '">' . htmlentities($name) . '</a> </td>';
     echo "<td>" . htmlentities($description) . "</td>";
     echo "<td>" . htmlentities($config_features_images) . "</td>";
     echo "<td>" . htmlentities($config_features_profiles) . "</td>";
     echo "<td>" . htmlentities($config_features_storage_volumes) . "</td>";
 
-    echo "<td>";
+    echo '<td>';
     echo '<div class="dropdown no-arrow">';
     echo '<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
     echo '<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>';

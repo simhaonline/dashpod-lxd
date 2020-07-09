@@ -9,15 +9,18 @@ set_time_limit(60);
 
 $remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING));
 $name = escapeshellarg(filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING));
-$copy = escapeshellarg(filter_var(urldecode($_GET['copy']), FILTER_SANITIZE_STRING));
+$rename = escapeshellarg(filter_var(urldecode($_GET['rename']), FILTER_SANITIZE_STRING));
 $project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING));
 $remote_url = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
 $project_url = filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING);
+$rename_url = filter_var(urldecode($_GET['rename']), FILTER_SANITIZE_STRING);
 
-exec("sudo lxc copy $remote:$name $remote:$copy --project $project 2>&1", $output, $return);
+
+//rename instance
+exec("sudo lxc move $remote:$name $remote:$rename --project $project 2>&1", $output, $return);
 
 if ($return == 0) {
-  header("Location: ../../overview.html?remote=" . $remote_url . "&project=" . $project_url);
+  header("Location: ../../instance.html?remote=" . $remote_url . "&project=" . $project_url . "&name=" . $rename_url );
   exit;
 }
 else {

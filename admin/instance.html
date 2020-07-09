@@ -9,7 +9,9 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title id="hostTitle">LXC/LXD Instance</title>
+  <link rel="icon" type="image/png" href="theme/images/logo-white.png">
+
+  <title>Dashpod</title>
 
   <!-- Custom fonts for this template-->
   <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -47,13 +49,18 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider">
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        <Dd id="hostInfoSidebar">LXD Host Info</Dd>
-      </div>
 
       <!-- Project List - Dynamic -->
-      <div id='projectListSidebar'></div>
+      <div id='projectListSidebar'>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-project-diagram"></i>
+            <span>Project:</span></a>
+        </li>
+      </div>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
 
       <!-- Nav Item - Overview -->
       <li class="nav-item">
@@ -151,65 +158,87 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Instance</h1>
-          </div>
+          <!-- BreadCrumb -->
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#" id="remoteBreadCrumb"></a></li>
+              <li class="breadcrumb-item"><a href="#" id="instancesBreadCrumb"></a></li>
+              <li class="breadcrumb-item active" aria-current="page" id="instanceBreadCrumb"></li>
+            </ol>
+          </nav>
 
           <div class="row">
 
-
             <div class="col-12">
-              <!-- Instance List -->
+              <!-- Instance Info -->
               <div class="card shadow mb-4">
                 <a href="#collapseCardInfo" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardInfo">
                   <h6 class="m-0 font-weight-bold text-primary">Info</h6>
                 </a>
                 <div class="collapse show" id="collapseCardInfo">
                   <div class="card-body">
-                      <div id="instanceInfoBasic"></div>
+                    <div id="instanceInfo"></div>
                   </div>
                 </div>
               </div>
-              <!-- End Instance List -->
+              <!-- End Instance Info -->
             </div>
 
-
-
             <div class="col-12">
-              <!-- Instance List -->
+              <!-- Snapshot List -->
               <div class="card shadow mb-4">
-                <a href="#collapseCardSnapshots" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardSnapshots">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Snapshots</h6>
-                </a>
-                <div class="collapse show" id="collapseCardSnapshot">
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table" id="snapshotTableList" width="100%" cellspacing="0">
-                      </table>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Options:</div>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#newSnapshotModal">Create Snapshot</a>
                     </div>
                   </div>
                 </div>
-              </div>
-              <!-- End Instance List -->
-            </div>
-
-
-
-            <div class="col-12">
-              <!-- Detailed Info -->
-              <div class="card shadow mb-4">
-                <a href="#collapseCardDetails" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardDetails">
-                  <h6 class="m-0 font-weight-bold text-primary">Full Details</h6>
-                </a>
-                <div class="collapse" id="collapseCardDetails">
-                  <div class="card-body">
-                    <div id="instanceInfoDetailed"></div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table" id="snapshotTableList" width="100%" cellspacing="0">
+                    </table>
                   </div>
                 </div>
               </div>
-              <!-- Detailed Info -->
+              <!-- End Snapshot List -->
             </div>
+
+
+            <div class="col-12">
+              <!-- Profile List -->
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Profiles</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Options:</div>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addProfileModal">Attach Profile</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table" id="profileTableList" width="100%" cellspacing="0">
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- End Profile List -->
+            </div>
+
 
 
           </div>
@@ -275,6 +304,39 @@
     </div>
   </div>
 
+  <!-- Rename Instance Modal-->
+  <div class="modal fade" id="renameInstanceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form action="./php/lxd/instance-rename.php" method="GET">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Rename Instance</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <label class="col-4 col-form-label text-right">Name:</label>
+              <div class="col-8">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="New Name" name="rename">
+                </div>
+              </div>
+            </div>
+            <input type="hidden" id="remoteInputRename" name="remote" value="">
+            <input type="hidden" id="instanceInputRename" name="name" value="">
+            <input type="hidden" id="projectInputRename" name="project" value="">
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary" id="submit" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 
   <!-- Copy Instance Modal-->
   <div class="modal fade" id="copyInstanceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -282,18 +344,21 @@
       <div class="modal-content">
         <form action="./php/lxd/instance-copy.php" method="GET">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Copy/Clone Instance</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Copy Instance</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
           <div class="modal-body">
             <div class="row">
-              <label class="col-4 col-form-label text-right">Clone Name: </label>
-              <div class="col-8">
+              <label class="col-3 col-form-label text-right">Copy Name:</label>
+              <div class="col-5">
                 <div class="form-group">
                   <input type="text" class="form-control" placeholder="New Instance Name" name="copy">
                 </div>
+              </div>
+              <div class="col-4">
+                <p>Note: New instances will be placed in the same project as the original.</p>
               </div>
             </div>
             <input type="hidden" id="remoteInputCopy" name="remote" value="">
@@ -303,6 +368,152 @@
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
             <input type="submit" class="btn btn-primary" id="submit" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Move Instance Modal-->
+  <div class="modal fade" id="moveInstanceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <form action="./php/lxd/instance-move.php" method="GET">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Move Instance</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-8">
+                <div class="row">
+                  <label class="col-4 col-form-label text-right">Destination Host:</label>
+                  <div class="col-8">
+                    <div class="form-group">
+                      <select id="selectRemoteInput" class="form-control" name="target_remote">
+                      </select>
+                    </div>
+                  </div>
+                  <label class="col-4 col-form-label text-right">Destination Project:</label>
+                  <div class="col-8">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="default" value="default" name="target_project">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <p>Note: If project does not exist on destination host, it will be created.</p>
+              </div>
+            </div>
+            <input type="hidden" id="remoteInputMove" name="remote" value="">
+            <input type="hidden" id="instanceInputMove" name="name" value="">
+            <input type="hidden" id="projectInputMove" name="project" value="">
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary" id="submit" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+    <!-- Publish Instance Modal-->
+    <div class="modal fade" id="publishInstanceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <form action="./php/lxd/instance-publish.php" method="GET">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Publish Instance as Image</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <label class="col-3 col-form-label text-right">Description:</label>
+                <div class="col-5">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Image Description" name="description">
+                  </div>
+                </div>
+                <div class="col-4">
+                  <p>Note: Publishing your instance will create an image based on your container.</p>
+                </div>
+              </div>
+              <input type="hidden" id="remoteInputPublish" name="remote" value="">
+              <input type="hidden" id="instanceInputPublish" name="name" value="">
+              <input type="hidden" id="projectInputPublish" name="project" value="">
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+              <input type="submit" class="btn btn-primary" id="submit" value="Submit">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  
+      <!-- Delete Instance Modal-->
+  <div class="modal fade" id="deleteInstanceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form action="./php/lxd/instance-delete.php" method="GET">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Delete Instance</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>You are about to delete this instance. Please confirm to permanently delete.</p>
+            <input type="hidden" id="remoteInputDelete" name="remote" value="">
+            <input type="hidden" id="instanceInputDelete" name="name" value="">
+            <input type="hidden" id="projectInputDelete" name="project" value="">
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary" id="submit" value="Confirm">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Profile Modal-->
+  <div class="modal fade" id="addProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form action="./php/lxd/instance-profile-add.php" method="GET">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Attach Profile</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <label class="col-3 col-form-label text-right">Copy Name:</label>
+              <div class="col-5">
+                <div class="form-group">
+                  <select id="selectProfileInput" class="form-control" name="profile">
+                  </select>
+                </div>
+              </div>
+              <div class="col-4">
+                <p>Note: Adding profiles will append additional profiles to your instance.</p>
+              </div>
+            </div>
+            <input type="hidden" id="remoteInputProfile" name="remote" value="">
+            <input type="hidden" id="instanceInputProfile" name="name" value="">
+            <input type="hidden" id="projectInputProfile" name="project" value="">
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary" id="submit" value="Confirm">
           </div>
         </form>
       </div>
@@ -368,9 +579,29 @@
   document.getElementById("instanceInputSnapshot").value = instanceName;
   document.getElementById("projectInputSnapshot").value = projectName;
 
+  document.getElementById("remoteInputRename").value = remoteName;
+  document.getElementById("instanceInputRename").value = instanceName;
+  document.getElementById("projectInputRename").value = projectName;
+
   document.getElementById("remoteInputCopy").value = remoteName;
   document.getElementById("instanceInputCopy").value = instanceName;
   document.getElementById("projectInputCopy").value = projectName;
+
+  document.getElementById("remoteInputMove").value = remoteName;
+  document.getElementById("instanceInputMove").value = instanceName;
+  document.getElementById("projectInputMove").value = projectName;
+
+  document.getElementById("remoteInputPublish").value = remoteName;
+  document.getElementById("instanceInputPublish").value = instanceName;
+  document.getElementById("projectInputPublish").value = projectName;
+
+  document.getElementById("remoteInputDelete").value = remoteName;
+  document.getElementById("instanceInputDelete").value = instanceName;
+  document.getElementById("projectInputDelete").value = projectName;
+
+  document.getElementById("remoteInputProfile").value = remoteName;
+  document.getElementById("instanceInputProfile").value = instanceName;
+  document.getElementById("projectInputProfile").value = projectName;
 
   document.getElementById("remoteInputPlaybook").value = remoteName;
   document.getElementById("instanceInputPlaybook").value = instanceName;
@@ -378,8 +609,12 @@
 
 
   $(document).ready(function(){
-    $("#hostHeading").text(remoteName + " - Instance")
-    $("#hostTitle").text(remoteName + " - Instance")
+
+    $('#remoteBreadCrumb').text(remoteName);
+    $('#remoteBreadCrumb').attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $('#instancesBreadCrumb').text("instances");
+    $('#instancesBreadCrumb').attr("href", "instances.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $('#instanceBreadCrumb').text(instanceName);
     $("#hostInfoSidebar").text("LXD Host: " + remoteName);
 
     $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
@@ -390,13 +625,15 @@
     $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
     $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#instanceInfoBasic").load("./php/lxd/instance-info-basic.php?name=" + encodeURI(instanceName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#instanceInfoDetailed").load("./php/lxd/instance-info-detailed.php?name=" + encodeURI(instanceName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#instanceInfo").load("./php/lxd/instance-info.php?name=" + encodeURI(instanceName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#snapshotTableList").load("./php/lxd/instance-snapshot-list.php?name=" + encodeURI(instanceName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#selectRemoteInput").load("./php/lxd/remote-list-select.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#selectProfileInput").load("./php/lxd/instance-profile-list-select.php?name=" + encodeURI(instanceName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#profileTableList").load("./php/lxd/instance-profile-list.php?name=" + encodeURI(instanceName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+
   
     $("#playbookTextarea").attr('placeholder',playbookSample);
   });
-
 
 
   function decodeHtml(html) {

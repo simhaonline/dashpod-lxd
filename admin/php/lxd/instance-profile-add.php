@@ -4,14 +4,13 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-//Set exec time limit to 60 seconds
-set_time_limit(60);
-
 $remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING));
-$image = escapeshellarg(filter_var(urldecode($_GET['image']), FILTER_SANITIZE_STRING));
+$name = escapeshellarg(filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING));
+$profile = escapeshellarg(filter_var(urldecode($_GET['profile']), FILTER_SANITIZE_STRING));
 $project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING));
 
-exec("sudo lxc image copy images:$image $remote: --project $project 2>&1", $output, $return);
+//rename instance
+exec("sudo lxc profile add $remote:$name $profile --project $project 2>&1", $output, $return);
 
 if ($return == 0) {
   header("Location: ".$_SERVER['HTTP_REFERER']);
@@ -29,5 +28,4 @@ else {
     exit;
   }
 }
-
 ?>

@@ -9,7 +9,9 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Remote Host Configuration</title>
+  <link rel="icon" type="image/png" href="theme/images/logo-white.png">
+
+  <title>Dashpod</title>
 
   <!-- Custom fonts for this template-->
   <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -160,9 +162,10 @@
                       </div>
                     </div>
                     <div class="col-4">
-                      Secure connections to remote LXD servers are made using the LXD remote TLS protocol. Before adding a remote host, first 
+                      <p>Secure connections to remote LXD servers are made using the LXD remote TLS protocol. Before adding a remote host, first 
                       copy the client <a href="#" data-toggle="modal" data-target="#clientCertModal">certificate</a> information and paste it into a file on your remote server such as <strong><em>dashpod.crt</em></strong>.  
-                      Then import the certificate on your remote server by running the command: <code>lxc config trust add dashpod.crt</code>, replacing the filename.
+                      Then import the certificate on your remote server by running the command: <code>lxc config trust add dashpod.crt</code>, replacing the filename.</p>
+                      <p>The remote server must also be listening for remote connections. If this was not setup during the initial setup, use <code>lxc config set core.https_address [::]</code> on the remote server to allow connections.</p>
                     </div>
                   </div>
                 </div>

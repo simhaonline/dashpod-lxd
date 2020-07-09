@@ -4,6 +4,9 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
+//Set exec time limit to 60 seconds
+set_time_limit(60);
+
 $remote = filter_var(urldecode($_POST['remote']), FILTER_SANITIZE_STRING);
 $name = filter_var(urldecode($_POST['name']), FILTER_SANITIZE_STRING);
 $yaml = urldecode($_POST['yaml']);

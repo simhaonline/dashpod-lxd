@@ -9,9 +9,6 @@ $project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZ
 $remote_url = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
 $project_url = filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING);
 
-//Set exec time limit to 10 seconds
-set_time_limit(10);
-
 #Get the JSON data
 $results = exec("sudo lxc image list $remote: --project $project --format json 2>&1", $output, $return);
 
@@ -44,7 +41,7 @@ if ($return == 0 ) {
     $public = $item['public'];
     $type = $item['type'];
 
-    if ($description == "")
+    if ($fingerprint == "")
       continue;
 
     echo "<tr>";

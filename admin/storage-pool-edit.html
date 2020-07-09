@@ -9,7 +9,9 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title id="hostTitle">LXC/LXD Edit Storage Pool</title>
+  <link rel="icon" type="image/png" href="theme/images/logo-white.png">
+  
+  <title>Dashpod</title>
 
   <!-- Custom fonts for this template-->
   <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -47,13 +49,18 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider">
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        <Dd id="hostInfoSidebar">LXD Host Info</Dd>
-      </div>
 
       <!-- Project List - Dynamic -->
-      <div id='projectListSidebar'></div>
+      <div id='projectListSidebar'>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-project-diagram"></i>
+            <span>Project:</span></a>
+        </li>
+      </div>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
 
       <!-- Nav Item - Overview -->
       <li class="nav-item">
@@ -151,10 +158,14 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Edit Storage Pool</h1>
-          </div>
+          <!-- BreadCrumb -->
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#" id="remoteBreadCrumb"></a></li>
+              <li class="breadcrumb-item"><a href="#" id="storagePoolsBreadCrumb"></a></li>
+              <li class="breadcrumb-item active" aria-current="page" id="storagePoolEditBreadCrumb"></li>
+            </ol>
+          </nav>
 
           <div class="row">
 
@@ -281,16 +292,20 @@ description: "Example Storage Pool"
   const urlParams = new URLSearchParams(queryString);
 
   const remoteName = urlParams.get('remote'); 
-  const profileName = urlParams.get('name'); 
+  const storagePoolName = urlParams.get('name'); 
   const projectName = urlParams.get('project'); 
 
   document.getElementById("remoteInput").value = remoteName;
-  document.getElementById("nameInput").value = profileName;
+  document.getElementById("nameInput").value = storagePoolName;
   document.getElementById("projectInput").value = projectName;
 
   $(document).ready(function(){
-    $("#hostHeading").text(remoteName + " - Edit Profile")
-    $("#hostTitle").text(remoteName + " - Edit Profile")
+
+    $('#remoteBreadCrumb').text(remoteName);
+    $('#remoteBreadCrumb').attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $('#storagePoolsBreadCrumb').text("storage pools");
+    $('#storagePoolsBreadCrumb').attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $('#storagePoolEditBreadCrumb').text(storagePoolName);
     $("#hostInfoSidebar").text("LXD Host: " + remoteName);
 
     $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
@@ -301,7 +316,7 @@ description: "Example Storage Pool"
     $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
     $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#yamlInput").load("./php/lxd/storage-pool-show.php?name=" + encodeURI(profileName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#yamlInput").load("./php/lxd/storage-pool-show.php?name=" + encodeURI(storagePoolName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#storagePoolListTable").load("./php/lxd/storage-pool-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
   });

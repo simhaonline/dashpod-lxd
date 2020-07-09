@@ -9,7 +9,9 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title id="hostTitle">LXC/LXD Profiles</title>
+  <link rel="icon" type="image/png" href="theme/images/logo-white.png">
+  
+  <title>Dashpod</title>
 
   <!-- Custom fonts for this template-->
   <link href="theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -47,13 +49,18 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider">
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        <Dd id="hostInfoSidebar">LXD Host Info</Dd>
-      </div>
 
       <!-- Project List - Dynamic -->
-      <div id='projectListSidebar'></div>
+      <div id='projectListSidebar'>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-project-diagram"></i>
+            <span>Project:</span></a>
+        </li>
+      </div>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
 
       <!-- Nav Item - Overview -->
       <li class="nav-item">
@@ -151,10 +158,13 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="hostHeading" class="h3 mb-0 text-gray-800">Profiles</h1>
-          </div>
+          <!-- BreadCrumb -->
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#" id="remoteBreadCrumb"></a></li>
+              <li class="breadcrumb-item active" aria-current="page" id="profilesBreadCrumb"></li>
+            </ol>
+          </nav>
 
           <div class="row">
 
@@ -206,11 +216,6 @@ devices:
   eth0:
     name: eth0
     network: lxdbr0
-    type: nic
-  eth1:
-    name: eth1
-    nictype: macvlan
-    parent: eno1
     type: nic
   root:
     path: /
@@ -298,8 +303,9 @@ devices:
 
   $(document).ready(function(){
 
-    $("#hostHeading").text(remoteName + " - Profiles");
-    $("#hostTitle").text(remoteName + " - Profiles");
+    $('#remoteBreadCrumb').text(remoteName);
+    $('#remoteBreadCrumb').attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $('#profilesBreadCrumb').text("profiles");
     $("#hostInfoSidebar").text("LXD Host: " + remoteName);
 
     $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));

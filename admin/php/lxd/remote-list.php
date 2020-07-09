@@ -1,8 +1,5 @@
 <?php
 
-//Set exec time limit to 10 seconds
-set_time_limit(10);
-
 $results = shell_exec("sudo lxc remote list --format json");
 
 #Decode JSON data
