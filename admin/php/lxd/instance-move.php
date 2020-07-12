@@ -4,9 +4,6 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-//Set exec time limit to 60 seconds
-set_time_limit(60);
-
 $remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING));
 $name = escapeshellarg(filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING));
 $target_remote = escapeshellarg(filter_var(urldecode($_GET['target_remote']), FILTER_SANITIZE_STRING));
@@ -49,11 +46,24 @@ if ($project_exists != true){
 
 
 //Move instance to remote host
-exec("sudo lxc move $remote:$name $target_remote:$name --project $project --target-project $target_project 2>&1", $output, $return);
+//Execute command in the background
+exec("sudo lxc move $remote:$name $target_remote:$name --project $project --target-project $target_project > /tmp/dashpod_error_log 2>&1 &", $output, $return);
+
 
 if ($return == 0) {
-  header("Location: ../../instance.html?remote=" . $target_remote_url . "&project=" . $target_project_url . "&name=" . $name_url);
-  exit;
+  sleep(1);
+  if (file_exists("/tmp/dashpod_error_log")){
+    $output = explode("\n", file_get_contents('/tmp/dashpod_error_log'));
+    unlink("/tmp/dashpod_error_log");
+    $_SESSION['alert'] = htmlentities($output[1]);
+    header("Location: ../../instances.html?remote=" . $target_remote_url . "&project=" . $target_project_url);
+    exit;
+  }
+  else {
+    $_SESSION['alert'] = "An error may have occured preventing the instance move";
+    header("Location: ../../instances.html?remote=" . $target_remote_url . "&project=" . $target_project_url);
+    exit;
+  }
 }
 else {
   if ($output == null){

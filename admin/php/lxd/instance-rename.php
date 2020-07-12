@@ -4,9 +4,6 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-//Set exec time limit to 60 seconds
-set_time_limit(60);
-
 $remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING));
 $name = escapeshellarg(filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING));
 $rename = escapeshellarg(filter_var(urldecode($_GET['rename']), FILTER_SANITIZE_STRING));

@@ -15,7 +15,7 @@ $project_url = filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING);
 exec("sudo lxc launch $remote:$fingerprint $remote:$name -p $profile --project $project 2>&1", $output, $return);
 
 if ($return == 0) {
-  header("Location: ../../overview.html?remote=" . $remote_url . "&project=" . $project_url);
+  header("Location: ".$_SERVER['HTTP_REFERER']);
   exit;
 }
 else {

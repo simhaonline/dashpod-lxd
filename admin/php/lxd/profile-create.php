@@ -17,12 +17,12 @@ $yamlfile = fopen($filepath, "w") or die("Unable to open file!");
 fwrite($yamlfile,$yaml);
 fclose($yamlfile);
 
-#Create an empty profile first
-$create = exec("sudo lxc profile create $remote:$name --project $project 2>&1", $output, $return);
+#Create an empty profile first, lxc does not seem to allow create with yaml options
+exec("sudo lxc profile create $remote:$name --project $project 2>&1", $output, $return);
 
 if ($return == 0) {
   #Apply YAML configuration to profile
-  $edit = exec("sudo lxc profile edit $remote:$name --project $project < $filepath 2>&1", $output, $return);
+  exec("sudo lxc profile edit $remote:$name --project $project < $filepath 2>&1", $output, $return);
 }
 
 #Remove temp file

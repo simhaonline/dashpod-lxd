@@ -13,7 +13,7 @@ $project_url = filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING);
 exec("sudo lxc delete $remote:$name --project $project 2>&1", $output, $return);
 
 if ($return == 0) {
-  header("Location: ../../overview.html?remote=" . $remote_url . "&project=" . $project_url);
+  header("Location: ../../instances.html?remote=" . $remote_url . "&project=" . $project_url);
   exit;
 }
 else {

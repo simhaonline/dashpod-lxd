@@ -17,12 +17,12 @@ $yamlfile = fopen($filepath, "w") or die("Unable to open file!");
 fwrite($yamlfile,$yaml);
 fclose($yamlfile);
 
-#Create an empty network first
-$create = exec("sudo lxc network create $remote:$name --project $project 2>&1", $output, $return);
+#Create an empty network first, lxc doesn't seem to allow creating with file
+exec("sudo lxc network create $remote:$name --project $project < $filepath 2>&1", $output, $return);
 
 if ($return == 0) {
   #Apply YAML configuration to network
-  $edit = exec("sudo lxc network edit $remote:$name --project $project < $filepath 2>&1", $output, $return);
+  exec("sudo lxc network edit $remote:$name --project $project < $filepath 2>&1", $output, $return);
 }
 
 #Remove temp file

@@ -10,7 +10,7 @@
   <meta name="author" content="">
 
   <link rel="icon" type="image/png" href="theme/images/logo-white.png">
-  
+
   <title>Dashpod</title>
 
   <!-- Custom fonts for this template-->
@@ -31,21 +31,23 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <!--<i class="fas fa-server"></i>-->
+        <div class="sidebar-brand-icon rotate-n-0">
+          <img src="theme/images/logo-white.png" style="width: 2rem;"></img>
         </div>
-        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD/LXC</sup></div>
+        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD</sup></div>
       </a>
 
       <!-- Divider -->
-      <hr class="sidebar-divider my-0">
+      <hr class="sidebar-divider">
 
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-server"></i>
-          <span>Hosts</span></a>
-      </li>
+      <!-- Remote Host List - Dynamic -->
+      <div id='remoteListSidebar'>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-server"></i>
+            <span>Host:</span></a>
+        </li>
+      </div>
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -62,13 +64,6 @@
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <!-- Nav Item - Overview -->
-      <li class="nav-item">
-        <a class="nav-link" id="overviewLinkSidebar" href="#">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Overview</span></a>
-      </li>
-
       <!-- Nav Item - Instances -->
       <li class="nav-item">
         <a class="nav-link" id="instancesLinkSidebar" href="#">
@@ -83,18 +78,18 @@
           <span>Images</span></a>
       </li>
 
-      <!-- Nav Item - Networks -->
-      <li class="nav-item">
-        <a class="nav-link" id="networksLinkSidebar" href="#">
-          <i class="fas fa-fw fa-network-wired"></i>
-          <span>Networks</span></a>
-      </li>
-
       <!-- Nav Item - Profiles -->
       <li class="nav-item">
         <a class="nav-link" id="profilesLinkSidebar" href="#">
           <i class="fas fa-fw fa-address-card"></i>
           <span>Profiles</span></a>
+      </li>
+
+      <!-- Nav Item - Networks -->
+      <li class="nav-item">
+        <a class="nav-link" id="networksLinkSidebar" href="#">
+          <i class="fas fa-fw fa-network-wired"></i>
+          <span>Networks</span></a>
       </li>
 
       <!-- Nav Item - Storage Pools-->
@@ -151,14 +146,6 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="#networksAnchor">
-                  <span class="mr-2 d-none d-lg-inline small text-primary">
-                    #Networks
-                  </span>
-                </a> 
-              </li>
-
-              <li class="nav-item">
                 <a class="nav-link" href="#profilesAnchor">
                   <span class="mr-2 d-none d-lg-inline small text-primary">
                     #Profiles
@@ -167,9 +154,25 @@
               </li>
 
               <li class="nav-item">
+                <a class="nav-link" href="#networksAnchor">
+                  <span class="mr-2 d-none d-lg-inline small text-primary">
+                    #Networks
+                  </span>
+                </a> 
+              </li>
+
+              <li class="nav-item">
                 <a class="nav-link" href="#storagePoolsAnchor">
                   <span class="mr-2 d-none d-lg-inline small text-primary">
                     #Storage Pools
+                  </span>
+                </a> 
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#repositoriesAnchor">
+                  <span class="mr-2 d-none d-lg-inline small text-primary">
+                    #Repositories
                   </span>
                 </a> 
               </li>
@@ -277,35 +280,6 @@
 
 
             <div class="col-12">
-              <!-- Network List -->
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Networks</h6>
-                  <a id="networksAnchor"></a>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" onclick="manageNetworks()" href="#">Manage Networks</a>
-                    </div>
-                  </div>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table" id="networkListTable" width="100%" cellspacing="0">
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <!-- End Network List -->
-            </div>
-
-
-            <div class="col-12">
               <!-- Profile List -->
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
@@ -335,6 +309,35 @@
 
 
             <div class="col-12">
+              <!-- Network List -->
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Networks</h6>
+                  <a id="networksAnchor"></a>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Options:</div>
+                      <a class="dropdown-item" onclick="manageNetworks()" href="#">Manage Networks</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table" id="networkListTable" width="100%" cellspacing="0">
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- End Network List -->
+            </div>
+
+
+            <div class="col-12">
               <!-- Storage Pool List -->
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
@@ -360,6 +363,26 @@
                 </div>
               </div>
               <!-- End Storage Pool List -->
+            </div>
+
+
+            <div class="col-12">
+              <!-- Simplestreams List -->
+              <div class="card shadow mb-4">
+                <a id="repositoriesAnchor"></a>
+                <a href="#collapseCardSimplestreams" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardSimplestreams">
+                  <h6 class="m-0 font-weight-bold text-primary">Image Repositories</h6>
+                </a>
+                <div class="collapse show" id="collapseCardSimplestreams">
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table" id="simplestreamsListTable" width="100%" cellspacing="0">
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Simplestreams List -->
             </div>
 
 
@@ -436,21 +459,21 @@
   $(document).ready(function(){
 
     $('#remoteBreadCrumb').text(remoteName);
-    $("#hostInfoSidebar").text("LXD Host: " + remoteName);
 
-    $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#instancesLinkSidebar").attr("href", "instances.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
+    $("#remoteListSidebar").load("./php/lxd/remote-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#instanceListTable").load("./php/lxd/instance-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#imageListTable").load("./php/lxd/image-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#networkListTable").load("./php/lxd/network-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#profileListTable").load("./php/lxd/profile-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#networkListTable").load("./php/lxd/network-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#storagePoolListTable").load("./php/lxd/storage-pool-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#simplestreamsListTable").load("./php/lxd/remote-list-simplestreams.php");
     $("#trustListTable").load("./php/lxd/trust-list.php?remote=" + encodeURI(remoteName));
   });
 

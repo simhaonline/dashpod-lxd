@@ -32,14 +32,14 @@
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <!--<i class="fas fa-server"></i>-->
+        <div class="sidebar-brand-icon rotate-n-0">
+          <img src="theme/images/logo-white.png" style="width: 2rem;"></img>
         </div>
-        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD/LXC</sup></div>
+        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD</sup></div>
       </a>
 
       <!-- Divider -->
-      <hr class="sidebar-divider my-0">
+      <hr class="sidebar-divider">
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
@@ -47,16 +47,6 @@
           <i class="fas fa-fw fa-server"></i>
           <span>Hosts</span></a>
       </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        <Dd>LXD/LXC Hosts:</Dd>
-      </div>
-
-      <!-- Host List - Dynamic -->
-      <div id='lxdRemoteListSidebar'></div>
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">  
@@ -300,7 +290,6 @@
 
 <script>
   $(document).ready(function(){
-    $("#lxdRemoteListSidebar").load("./php/lxd/remote-list-sidebar.php");
     $("#lxdListTable").load("./php/lxd/remote-list.php");
     $("#clientCert").load("./php/lxd/lxc-cert.php");
   });

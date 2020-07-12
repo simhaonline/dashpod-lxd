@@ -31,21 +31,23 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <!--<i class="fas fa-server"></i>-->
+        <div class="sidebar-brand-icon rotate-n-0">
+          <img src="theme/images/logo-white.png" style="width: 2rem;"></img>
         </div>
-        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD/LXC</sup></div>
+        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD</sup></div>
       </a>
 
       <!-- Divider -->
-      <hr class="sidebar-divider my-0">
+      <hr class="sidebar-divider">
 
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-server"></i>
-          <span>Hosts</span></a>
-      </li>
+      <!-- Remote Host List - Dynamic -->
+      <div id='remoteListSidebar'>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-server"></i>
+            <span>Host:</span></a>
+        </li>
+      </div>
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -62,13 +64,6 @@
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <!-- Nav Item - Overview -->
-      <li class="nav-item">
-        <a class="nav-link" id="overviewLinkSidebar" href="#">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Overview</span></a>
-      </li>
-
       <!-- Nav Item - Instances -->
       <li class="nav-item">
         <a class="nav-link" id="instancesLinkSidebar" href="#">
@@ -83,18 +78,18 @@
           <span>Images</span></a>
       </li>
 
-      <!-- Nav Item - Networks -->
-      <li class="nav-item">
-        <a class="nav-link" id="networksLinkSidebar" href="#">
-          <i class="fas fa-fw fa-network-wired"></i>
-          <span>Networks</span></a>
-      </li>
-
       <!-- Nav Item - Profiles -->
       <li class="nav-item">
         <a class="nav-link" id="profilesLinkSidebar" href="#">
           <i class="fas fa-fw fa-address-card"></i>
           <span>Profiles</span></a>
+      </li>
+
+      <!-- Nav Item - Networks -->
+      <li class="nav-item">
+        <a class="nav-link" id="networksLinkSidebar" href="#">
+          <i class="fas fa-fw fa-network-wired"></i>
+          <span>Networks</span></a>
       </li>
 
       <!-- Nav Item - Storage Pools-->
@@ -273,7 +268,7 @@
 
   <!-- New Snapshot Modal-->
   <div class="modal fade" id="newSnapshotModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
         <form action="./php/lxd/instance-snapshot-create.php" method="GET">
           <div class="modal-header">
@@ -358,7 +353,7 @@
                 </div>
               </div>
               <div class="col-4">
-                <p>Note: New instances will be placed in the same project as the original.</p>
+                <p>Note: Copying an instance is processed in the background and will appear in the list when finished.</p>
               </div>
             </div>
             <input type="hidden" id="remoteInputCopy" name="remote" value="">
@@ -405,7 +400,7 @@
                 </div>
               </div>
               <div class="col-4">
-                <p>Note: If project does not exist on destination host, it will be created.</p>
+                <p>Note: Moving an instance is processed in the background and will appear in the list when finished.</p>
               </div>
             </div>
             <input type="hidden" id="remoteInputMove" name="remote" value="">
@@ -441,7 +436,7 @@
                   </div>
                 </div>
                 <div class="col-4">
-                  <p>Note: Publishing your instance will create an image based on your container.</p>
+                  <p>Note: Publishing an image is processed in the background and will appear in the list when finished.</p>
                 </div>
               </div>
               <input type="hidden" id="remoteInputPublish" name="remote" value="">
@@ -617,13 +612,13 @@
     $('#instanceBreadCrumb').text(instanceName);
     $("#hostInfoSidebar").text("LXD Host: " + remoteName);
 
-    $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#instancesLinkSidebar").attr("href", "instances.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
+    $("#remoteListSidebar").load("./php/lxd/remote-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#instanceInfo").load("./php/lxd/instance-info.php?name=" + encodeURI(instanceName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#snapshotTableList").load("./php/lxd/instance-snapshot-list.php?name=" + encodeURI(instanceName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));

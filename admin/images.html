@@ -31,21 +31,23 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <!--<i class="fas fa-server"></i>-->
+        <div class="sidebar-brand-icon rotate-n-0">
+          <img src="theme/images/logo-white.png" style="width: 2rem;"></img>
         </div>
-        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD/LXC</sup></div>
+        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD</sup></div>
       </a>
 
       <!-- Divider -->
-      <hr class="sidebar-divider my-0">
+      <hr class="sidebar-divider">
 
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-server"></i>
-          <span>Hosts</span></a>
-      </li>
+      <!-- Remote Host List - Dynamic -->
+      <div id='remoteListSidebar'>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-server"></i>
+            <span>Host:</span></a>
+        </li>
+      </div>
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -62,13 +64,6 @@
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <!-- Nav Item - Overview -->
-      <li class="nav-item">
-        <a class="nav-link" id="overviewLinkSidebar" href="#">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Overview</span></a>
-      </li>
-
       <!-- Nav Item - Instances -->
       <li class="nav-item">
         <a class="nav-link" id="instancesLinkSidebar" href="#">
@@ -83,18 +78,18 @@
           <span>Images</span></a>
       </li>
 
-      <!-- Nav Item - Networks -->
-      <li class="nav-item">
-        <a class="nav-link" id="networksLinkSidebar" href="#">
-          <i class="fas fa-fw fa-network-wired"></i>
-          <span>Networks</span></a>
-      </li>
-
       <!-- Nav Item - Profiles -->
       <li class="nav-item">
         <a class="nav-link" id="profilesLinkSidebar" href="#">
           <i class="fas fa-fw fa-address-card"></i>
           <span>Profiles</span></a>
+      </li>
+
+      <!-- Nav Item - Networks -->
+      <li class="nav-item">
+        <a class="nav-link" id="networksLinkSidebar" href="#">
+          <i class="fas fa-fw fa-network-wired"></i>
+          <span>Networks</span></a>
       </li>
 
       <!-- Nav Item - Storage Pools-->
@@ -168,69 +163,32 @@
 
           <div class="row">
 
-
-            <div class="col-12">
-              <!-- Add Image -->
-              <div class="card shadow mb-4">
-                <a href="#collapseCardAddImage" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardAddImage">
-                  <h6 class="m-0 font-weight-bold text-primary">Add Image</h6>
-                </a>
-                <div class="collapse" id="collapseCardAddImage">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-8">
-                        <form action="./php/lxd/image-copy.php" method="GET">
-                          <div class="row">
-                            <label class="col-2 col-form-label text-right">Image/Version: </label>
-                            <div class="col-6">
-                              <div class="form-group">
-                                <input type="text" class="form-control" required="required" placeholder="ubuntu/20.04" name="image">
-                                <input type="hidden" id="remoteInput" name="remote">
-                                <input type="hidden" id="projectInput" name="project">
-                              </div>
-                            </div>
-                            <div class="col-2">
-                              <input type="submit" class="btn btn-primary" id="submit" value="Submit">
-                            </div>
-                          </div>
-
-                        </form>
-                      </div>
-                      <div class="col-4">
-                        Images are downloaded from the <a target="_blank" href="https://images.linuxcontainers.org/">https://images.linuxcontainers.org/</a> images repository. 
-                        For example, to download Ubuntu 20.04 use <em>ubuntu/20.04</em> or to download CentOS 8 use <em>centos/8</em>. View the repository list to see all options.
-                      </div>
-                    </div>
-
-
-                  </div>
-                </div>
-              </div>
-              <!-- End Add Image -->
-            </div>
-
             <div class="col-12">
               <!-- Image List -->
               <div class="card shadow mb-4">
-                <a href="#collapseCardImages" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardImages">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Images</h6>
-                </a>
-                <div class="collapse show" id="collapseCardImages">
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table" id="imageListTable" width="100%" cellspacing="0">
-                      </table>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Options:</div>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#downloadImageModal">Download Image</a>
                     </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table" id="imageListTable" width="100%" cellspacing="0">
+                    </table>
                   </div>
                 </div>
               </div>
               <!-- End Image List -->
             </div>
-
-
-
-
-
 
           </div>
 
@@ -262,6 +220,49 @@
   </a>
 
 
+  <!-- Download Image Modal-->
+  <div class="modal fade" id="downloadImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form action="./php/lxd/image-copy.php" method="GET">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Download Image</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+                    <div class="row">
+                      <label class="col-4 col-form-label text-right">Image/Version: </label>
+                      <div class="col-8">
+                        <div class="form-group">
+                          <input type="text" class="form-control" required="required" placeholder="ubuntu/20.04" name="image">
+                        </div>
+                      </div>
+                      <label class="col-4 col-form-label text-right">Repository:</label>
+                      <div class="col-8 text-right">
+                        <div class="form-group">
+                          <select id="selectRepoInput" class="form-control" name="repo">
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <p>Note: Downloads are processed in the background and will appear in the list when finished.</p>
+            <input type="hidden" id="remoteInput" name="remote">
+            <input type="hidden" id="projectInput" name="project">
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary" id="submit" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
 
   <!-- Bootstrap core JavaScript-->
   <script src="theme/vendor/jquery/jquery.min.js"></script>
@@ -282,8 +283,22 @@
   const projectName = urlParams.get('project');
   document.getElementById("remoteInput").value = remoteName;
   document.getElementById("projectInput").value = projectName;
+  var imageList;
 
+  function refreshImageList(){
+    $.get("./php/lxd/image-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName), function (data) {
+      if (imageList != data){
+        $("#imageListTable").html(data);
+        imageList = data;
+      }
+    });
+  }
 
+  function loadImageList(data) { 
+    imageList = data;
+    $("#imageListTable").html(imageList);
+    setInterval(function(){refreshImageList()}, 5000);
+  }
 
   $(document).ready(function(){
 
@@ -291,15 +306,19 @@
     $('#remoteBreadCrumb').attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $('#imagesBreadCrumb').text("images");
 
-    $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    //Get image list and seup refresh every 5 seconds
+    $.get("./php/lxd/image-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName), loadImageList);
+
     $("#instancesLinkSidebar").attr("href", "instances.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
+    $("#remoteListSidebar").load("./php/lxd/remote-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#imageListTable").load("./php/lxd/image-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#selectRepoInput").load("./php/lxd/remote-list-select-simplestreams.php");
+    
   });
 
 

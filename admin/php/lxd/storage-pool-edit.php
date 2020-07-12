@@ -18,7 +18,7 @@ fwrite($yamlfile,$yaml);
 fclose($yamlfile);
 
 #Apply YAML configuration to profile
-$edit = exec("sudo lxc storage edit $remote:$name --project $project < $filepath 2>&1", $output, $return);
+exec("sudo lxc storage edit $remote:$name --project $project < $filepath 2>&1", $output, $return);
 
 #Remove temp file
 unlink($filepath);

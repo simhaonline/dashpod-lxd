@@ -10,7 +10,7 @@
   <meta name="author" content="">
 
   <link rel="icon" type="image/png" href="theme/images/logo-white.png">
-  
+
   <title>Dashpod</title>
 
   <!-- Custom fonts for this template-->
@@ -31,21 +31,23 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <!--<i class="fas fa-server"></i>-->
+        <div class="sidebar-brand-icon rotate-n-0">
+          <img src="theme/images/logo-white.png" style="width: 2rem;"></img>
         </div>
-        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD/LXC</sup></div>
+        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD</sup></div>
       </a>
 
       <!-- Divider -->
-      <hr class="sidebar-divider my-0">
+      <hr class="sidebar-divider">
 
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-server"></i>
-          <span>Hosts</span></a>
-      </li>
+      <!-- Remote Host List - Dynamic -->
+      <div id='remoteListSidebar'>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-server"></i>
+            <span>Host:</span></a>
+        </li>
+      </div>
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -62,13 +64,6 @@
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <!-- Nav Item - Overview -->
-      <li class="nav-item">
-        <a class="nav-link" id="overviewLinkSidebar" href="#">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Overview</span></a>
-      </li>
-
       <!-- Nav Item - Instances -->
       <li class="nav-item">
         <a class="nav-link" id="instancesLinkSidebar" href="#">
@@ -83,18 +78,18 @@
           <span>Images</span></a>
       </li>
 
-      <!-- Nav Item - Networks -->
-      <li class="nav-item">
-        <a class="nav-link" id="networksLinkSidebar" href="#">
-          <i class="fas fa-fw fa-network-wired"></i>
-          <span>Networks</span></a>
-      </li>
-
       <!-- Nav Item - Profiles -->
       <li class="nav-item">
         <a class="nav-link" id="profilesLinkSidebar" href="#">
           <i class="fas fa-fw fa-address-card"></i>
           <span>Profiles</span></a>
+      </li>
+
+      <!-- Nav Item - Networks -->
+      <li class="nav-item">
+        <a class="nav-link" id="networksLinkSidebar" href="#">
+          <i class="fas fa-fw fa-network-wired"></i>
+          <span>Networks</span></a>
       </li>
 
       <!-- Nav Item - Storage Pools-->
@@ -207,7 +202,6 @@
                         </form>
                       </div>
                       <div class="col-4">
-                        <p>Storage Pools can be defined by using a YAML configuration.</p> 
                         <p>Below is an example of a YAML configuration.</p>
 <pre>
 <textarea readonly rows="16" class="form-control">
@@ -308,13 +302,13 @@ description: "Example Storage Pool"
     $('#storagePoolEditBreadCrumb').text(storagePoolName);
     $("#hostInfoSidebar").text("LXD Host: " + remoteName);
 
-    $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#instancesLinkSidebar").attr("href", "instances.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
+    $("#remoteListSidebar").load("./php/lxd/remote-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#yamlInput").load("./php/lxd/storage-pool-show.php?name=" + encodeURI(storagePoolName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#storagePoolListTable").load("./php/lxd/storage-pool-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));

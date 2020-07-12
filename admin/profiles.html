@@ -10,7 +10,7 @@
   <meta name="author" content="">
 
   <link rel="icon" type="image/png" href="theme/images/logo-white.png">
-  
+
   <title>Dashpod</title>
 
   <!-- Custom fonts for this template-->
@@ -31,21 +31,23 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <!--<i class="fas fa-server"></i>-->
+        <div class="sidebar-brand-icon rotate-n-0">
+          <img src="theme/images/logo-white.png" style="width: 2rem;"></img>
         </div>
-        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD/LXC</sup></div>
+        <div class="sidebar-brand-text mx-3">dashpod <sup>LXD</sup></div>
       </a>
 
       <!-- Divider -->
-      <hr class="sidebar-divider my-0">
+      <hr class="sidebar-divider">
 
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-server"></i>
-          <span>Hosts</span></a>
-      </li>
+      <!-- Remote Host List - Dynamic -->
+      <div id='remoteListSidebar'>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-server"></i>
+            <span>Host:</span></a>
+        </li>
+      </div>
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -62,13 +64,6 @@
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <!-- Nav Item - Overview -->
-      <li class="nav-item">
-        <a class="nav-link" id="overviewLinkSidebar" href="#">
-          <i class="fas fa-fw fa-server"></i>
-          <span>Overview</span></a>
-      </li>
-
       <!-- Nav Item - Instances -->
       <li class="nav-item">
         <a class="nav-link" id="instancesLinkSidebar" href="#">
@@ -83,18 +78,18 @@
           <span>Images</span></a>
       </li>
 
-      <!-- Nav Item - Networks -->
-      <li class="nav-item">
-        <a class="nav-link" id="networksLinkSidebar" href="#">
-          <i class="fas fa-fw fa-network-wired"></i>
-          <span>Networks</span></a>
-      </li>
-
       <!-- Nav Item - Profiles -->
       <li class="nav-item">
         <a class="nav-link" id="profilesLinkSidebar" href="#">
           <i class="fas fa-fw fa-address-card"></i>
           <span>Profiles</span></a>
+      </li>
+
+      <!-- Nav Item - Networks -->
+      <li class="nav-item">
+        <a class="nav-link" id="networksLinkSidebar" href="#">
+          <i class="fas fa-fw fa-network-wired"></i>
+          <span>Networks</span></a>
       </li>
 
       <!-- Nav Item - Storage Pools-->
@@ -168,81 +163,27 @@
 
           <div class="row">
 
-
-            <div class="col-12">
-              <!-- Add Profile-->
-              <div class="card shadow mb-4">
-                <a href="#collapseCardAddProfile" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardAddProfile">
-                  <h6 class="m-0 font-weight-bold text-primary">Add Profile</h6>
-                </a>
-                <div class="collapse" id="collapseCardAddProfile">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-8">
-                        <form action="./php/lxd/profile-create.php" method="POST">
-                          <div class="row">
-                            <label class="col-2 col-form-label text-right">Name: </label>
-                            <div class="col-8">
-                              <div class="form-group">
-                                <input type="text" class="form-control" required="required" placeholder="Profile Name" name="name">
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <label class="col-2 col-form-label text-right">YAML: </label>
-                            <div class="col-8 text-right">
-                              <div class="form-group">
-                                <pre>
-                                  <textarea name="yaml" class="form-control" rows="16" ></textarea>
-                                </pre>
-                                <input type="hidden" id="remoteInput" name="remote">
-                                <input type="hidden" id="projectInput" name="project">
-                              </div>
-                              <hr>
-                              <input type="submit" class="btn btn-primary" id="submit" value="Submit">
-                            </div>
-                          </div>
-
-                        </form>
-                      </div>
-                      <div class="col-4">
-                        <p>New profiles can be defined by using a YAML configuration.</p> 
-                        <p>Below is an example of a YAML configuration that can be used to create a new profile.</p>
-<pre>
-<textarea readonly rows="16" class="form-control">
-config: {}
-description: Example profile
-devices:
-  eth0:
-    name: eth0
-    network: lxdbr0
-    type: nic
-  root:
-    path: /
-    pool: default
-    type: disk
-</textarea>
-</pre>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- End Add Profile -->
-            </div>
-
             <div class="col-12">
               <!-- Profile List -->
               <div class="card shadow mb-4">
-                <a href="#collapseCardProfiles" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardProfiles">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Profiles</h6>
-                </a>
-                <div class="collapse show" id="collapseCardProfiles">
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table" id="profileListTable" width="100%" cellspacing="0">
-                      </table>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Options:</div>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#createProfileModal">Create Profile</a>
                     </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table" id="profileListTable" width="100%" cellspacing="0">
+                    </table>
                   </div>
                 </div>
               </div>
@@ -278,6 +219,51 @@ devices:
     <i class="fas fa-angle-up"></i>
   </a>
 
+  <!-- Create Profile Modal-->
+  <div class="modal fade" id="createProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <form action="./php/lxd/profile-create.php" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create Profile</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <div class="row">
+              <label class="col-2 col-form-label text-right">Name: </label>
+              <div class="col-8">
+                <div class="form-group">
+                  <input type="text" class="form-control" required="required" placeholder="Profile Name" name="name">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="col-2 col-form-label text-right">YAML: </label>
+              <div class="col-8 text-right">
+                <div class="form-group">
+                  <pre>
+                    <textarea name="yaml" class="form-control" rows="16" ></textarea>
+                  </pre>
+                </div>
+              </div>
+            </div>
+
+            <input type="hidden" id="remoteInput" name="remote">
+            <input type="hidden" id="projectInput" name="project">
+
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary" id="submit" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 
   <!-- Bootstrap core JavaScript-->
@@ -308,13 +294,13 @@ devices:
     $('#profilesBreadCrumb').text("profiles");
     $("#hostInfoSidebar").text("LXD Host: " + remoteName);
 
-    $("#overviewLinkSidebar").attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#instancesLinkSidebar").attr("href", "instances.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#imagesLinkSidebar").attr("href", "images.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#profilesLinkSidebar").attr("href", "profiles.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#networksLinkSidebar").attr("href", "networks.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#storagePoolsLinkSidebar").attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 
+    $("#remoteListSidebar").load("./php/lxd/remote-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#projectListSidebar").load("./php/lxd/project-list-sidebar.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
     $("#profileListTable").load("./php/lxd/profile-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
 

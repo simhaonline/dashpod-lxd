@@ -22,8 +22,8 @@ if ($return == 0 ) {
   echo "<th style='width:75px'></th>";
   echo "<th>Name</th>";
   echo "<th>Description</th>";
-  echo "<th>Featured Images</th>";
-  echo "<th>Featured Profiles</th>";
+  echo "<th>Features Images</th>";
+  echo "<th>Features Profiles</th>";
   echo "<th>Features Storage Volumes</th>";
   echo "<th style='width:75px'></th>";
   echo "</tr>";
@@ -34,9 +34,9 @@ if ($return == 0 ) {
   foreach ($projects_array as $project) {
     $name = $project['name'];
     $description = $project['description'];
-    $config_features_images = $project['config']['features.images'];
-    $config_features_profiles = $project['config']['features.profiles'];
-    $config_features_storage_volumes = $project['config']['features.storage.volumes'];
+    $config_features_images = ($project['config']['features.images'])?"true":"false";
+    $config_features_profiles = ($project['config']['features.profiles'])?"true":"false";
+    $config_features_storage_volumes = ($project['config']['features.storage.volumes'])?"true":"false";
 
     if ($name == "")
       continue;

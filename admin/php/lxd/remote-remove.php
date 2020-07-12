@@ -5,7 +5,7 @@ if (!isset($_SESSION)) {
 }
 
 $name = escapeshellarg(filter_var(urldecode($_GET['name']), FILTER_SANITIZE_STRING));
-$dbonly = escapeshellarg(filter_var(urldecode($_GET['dbonly']), FILTER_SANITIZE_STRING));
+$dbonly = filter_var(urldecode($_GET['dbonly']), FILTER_SANITIZE_STRING);
 
 if ($dbonly == "true") {
   $db = new SQLite3('/var/dashpod/data/sqlite/dashpod.sqlite');

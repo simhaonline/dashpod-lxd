@@ -18,13 +18,10 @@ $yamlfile = fopen($filepath, "w") or die("Unable to open file!");
 fwrite($yamlfile,$yaml);
 fclose($yamlfile);
 
-#Create an empty profile first
-$create = exec("sudo lxc storage create $remote:$name $driver --project $project 2>&1", $output, $return);
+#Create a storage first
+exec("sudo lxc storage create $remote:$name $driver --project $project < $filepath 2>&1", $output, $return);
 
-if ($return == 0) {
-  #Apply YAML configuration to profile
-  $edit = exec("sudo lxc storage edit $remote:$name --project $project < $filepath 2>&1", $output, $return);
-}
+
 
 #Remove temp file
 unlink($filepath);
