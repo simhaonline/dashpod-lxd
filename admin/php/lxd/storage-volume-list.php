@@ -6,11 +6,13 @@ if (!isset($_SESSION)) {
   
 $remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING));
 $project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING));
+$pool = escapeshellarg(filter_var(urldecode($_GET['pool']), FILTER_SANITIZE_STRING));
 $remote_url = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
 $project_url = filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING);
+$pool_url = filter_var(urldecode($_GET['pool']), FILTER_SANITIZE_STRING);
 
 #Get the JSON data
-$results = exec("sudo lxc storage list $remote: --project $project --format json 2>&1", $output, $return);
+$results = exec("sudo lxc storage volume list $remote:$pool --project $project --format json 2>&1", $output, $return);
 
 if ($return == 0 ) {
 
@@ -21,9 +23,9 @@ if ($return == 0 ) {
   echo "<tr>";
   echo "<th style='width:75px'></th>";
   echo "<th>Name</th>";
-  echo "<th>Driver </th>";
-  echo "<th>Source</th>";
-  echo "<th>Size</th>";
+  echo "<th>Description</th>";
+  echo "<th>Type</th>";
+  echo "<th>Used By</th>";
   echo "<th style='width:75px'></th>";
   echo "</tr>";
   echo "</thead>";
@@ -32,24 +34,28 @@ if ($return == 0 ) {
 
   foreach ($items as $item) {
     $name = $item['name'];
-    $driver = $item['driver']; //array
-    $source = $item['config']['source'];
-    $size = $item['config']['size'];
-
+    $description = $item['description'];
+    $type = $item['type'];
+    $used_by = $item['used_by']; //array
+ 
 
     if ($name == "")
       continue;
 
     echo "<tr>";
     
-    echo '<td> <a href="./storage-volumes.html?remote=' . $remote_url . '&project=' . $project_url . '&pool=' . htmlentities($name) . '"> <i class="fas fa-hdd fa-2x" style="color:#4e73df"> </i> </a> </td>';
+    echo "<td> <i class='fas fa-hdd fa-2x' style='color:#4e73df'></i> </td>";
+    
+    echo "<td>" . htmlentities($name) . "</td>";
+    echo "<td>" . htmlentities($description) . "</td>";
+    echo "<td>" . htmlentities($type) . "</td>";
 
-    echo '<td> <a href="./storage-volumes.html?remote=' . $remote_url . '&project=' . $project_url . '&pool=' . htmlentities($name) . '">' . htmlentities($name) . '</a> </td>';
-    echo "<td>" . htmlentities($driver) . "</td>";
-    echo "<td>" . htmlentities($source) . "</td>";
-    echo "<td>" . htmlentities($size) . "</td>";
-
-
+    foreach ($used_by as $instance){
+      echo "<td>" . htmlentities($instance) . "</td>";
+      echo "<br />";
+    }
+   
+/*
     echo "<td>";
       echo '<div class="dropdown no-arrow">';
       echo '<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
@@ -58,12 +64,13 @@ if ($return == 0 ) {
       echo '<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">';
       echo '<div class="dropdown-header">Options:</div>';
 
-      echo '<a class="dropdown-item" href="storage-pool-edit.html?name='. $name . '&remote=' . $remote_url .'&project=' . $project_url .  '">Edit</a>';
-      echo '<a class="dropdown-item" href="./php/lxd/storage-pool-delete.php?name='. $name . '&remote=' . $remote_url .'&project=' . $project_url .  '">Delete</a>';
+      echo '<a class="dropdown-item" href="storage-volume-edit.html?name='. $name . '&remote=' . $remote_url .'&project=' . $project_url . '&pool=' . $pool_url .  '">Edit</a>';
+      echo '<a class="dropdown-item" href="./php/lxd/storage-volume-delete.php?name='. $name . '&remote=' . $remote_url .'&project=' . $project_url  .'&pool=' . $pool_url .  '">Delete</a>';
 
       echo '</div>';
       echo '</div>';
     echo "</td>";
+*/
 
     echo "</tr>";
 

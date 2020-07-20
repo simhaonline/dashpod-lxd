@@ -9,11 +9,23 @@ $remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_
 $fingerprint = escapeshellarg(filter_var(urldecode($_GET['fingerprint']), FILTER_SANITIZE_STRING));
 $project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING));
 
-exec("sudo lxc image refresh $remote:$fingerprint --project $project 2>&1", $output, $return);
+//Execute command in the background
+exec("sudo lxc image refresh $remote:$fingerprint --project $project > /tmp/dashpod_error_log 2>&1 &", $output, $return);
 
 if ($return == 0) {
-  header("Location: ".$_SERVER['HTTP_REFERER']);
-  exit;
+  sleep(1);
+  if (file_exists("/tmp/dashpod_error_log")){
+    $output = explode("\n", file_get_contents('/tmp/dashpod_error_log'));
+    unlink("/tmp/dashpod_error_log");
+    $_SESSION['alert'] = htmlentities($output[1]);
+    header("Location: ".$_SERVER['HTTP_REFERER']);
+    exit;
+  }
+  else {
+    header("Location: ".$_SERVER['HTTP_REFERER']);
+    exit;
+  }
+
 }
 else {
   if ($output == null){
