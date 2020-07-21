@@ -91,85 +91,37 @@
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="#" id="remoteBreadCrumb"></a></li>
-              <li class="breadcrumb-item"><a href="#" id="storagePoolsBreadCrumb"></a></li>
-              <li class="breadcrumb-item active" aria-current="page" id="storagePoolEditBreadCrumb"></li>
+              <li class="breadcrumb-item active" aria-current="page" id="repositoriesBreadCrumb"></li>
             </ol>
           </nav>
 
           <div class="row">
 
-
             <div class="col-12">
-              <!-- Edit Storage Pool-->
+              <!-- Slipstream Image Repository List -->
               <div class="card shadow mb-4">
-                <a href="#collapseCardStoragePool" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardStoragePool">
-                  <h6 class="m-0 font-weight-bold text-primary">Storage Pool</h6>
-                </a>
-                <div class="collapse show" id="collapseCardStoragePool">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-8">
-                        <form action="./php/lxd/storage-pool-edit.php" method="POST">
-                          <div class="row">
-                            <label class="col-2 col-form-label text-right">Name: </label>
-                            <div class="col-8">
-                              <div class="form-group">
-                                <input type="text" class="form-control" required="required" id="nameInput" readonly name="name">
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <label class="col-2 col-form-label text-right">YAML: </label>
-                            <div class="col-8 text-right">
-                              <div class="form-group">
-                                <pre>
-                                  <textarea name="yaml" class="form-control" id="yamlInput" rows="16" ></textarea>
-                                </pre>
-                                <input type="hidden" id="remoteInput" name="remote">
-                                <input type="hidden" id="projectInput" name="project">
-                              </div>
-                              <hr>
-                              <input type="submit" class="btn btn-primary" id="submit" value="Submit">
-                            </div>
-                          </div>
-
-                        </form>
-                      </div>
-                      <div class="col-4">
-                        <p>Below is an example of a YAML configuration.</p>
-<pre>
-<textarea readonly rows="16" class="form-control">
-config:
-  size: 100GB
-  source: /var/lxd/disks/example.img
-  zfs.pool_name: example
-description: "Example Storage Pool"
-</textarea>
-</pre>
-                      </div>
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Repositories</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Options:</div>
+                      <!-- <a class="dropdown-item" href="#" data-toggle="modal" data-target="#createRepositoryModal">Create Image Repository</a> -->
                     </div>
                   </div>
                 </div>
-              </div>
-              <!-- End Edit Storage Pool -->
-            </div>
-
-            <div class="col-12">
-              <!-- Profile List -->
-              <div class="card shadow mb-4">
-                <a href="#collapseCardStoragePools" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardStoragePools">
-                  <h6 class="m-0 font-weight-bold text-primary">Storage Pools</h6>
-                </a>
-                <div class="collapse show" id="collapseCardStoragePools">
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table" id="storagePoolListTable" width="100%" cellspacing="0">
-                      </table>
-                    </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table" id="simplestreamsListTable" width="100%" cellspacing="0">
+                    </table>
                   </div>
                 </div>
               </div>
-              <!-- End Profile List -->
+              <!-- End Slipstream Image Repository  List -->
             </div>
 
           </div>
@@ -201,7 +153,55 @@ description: "Example Storage Pool"
     <i class="fas fa-angle-up"></i>
   </a>
 
+  <!-- Create Image Repository Modal-->
+  <div class="modal fade" id="createRepositoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <form action="./php/lxd/.php" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create Image Repository</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
 
+            <div class="row">
+              <label class="col-2 col-form-label text-right">Name: </label>
+              <div class="col-8">
+                <div class="form-group">
+                  <input type="text" class="form-control" required="required" placeholder="Name" name="name">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="col-2 col-form-label text-right">Driver: </label>
+              <div class="col-8">
+                <div class="form-group">
+                  <select class="form-control" name="driver">
+                    <option value="btrfs">btrfs</option>
+                    <option value="ceph">ceph</option>
+                    <option value="dir">dir</option>
+                    <option value="lvm">lvm</option>
+                    <option value="zfs" selected>zfs</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <input type="hidden" id="remoteInput" name="remote">
+            <input type="hidden" id="projectInput" name="project">
+
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary" id="submit" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="theme/vendor/jquery/jquery.min.js"></script>
@@ -218,13 +218,11 @@ description: "Example Storage Pool"
 <script>
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-
   const remoteName = urlParams.get('remote'); 
-  const storagePoolName = urlParams.get('name'); 
-  const projectName = urlParams.get('project'); 
+  const projectName = urlParams.get('project');
+  const repoName = urlParams.get('repo');  
 
   document.getElementById("remoteInput").value = remoteName;
-  document.getElementById("nameInput").value = storagePoolName;
   document.getElementById("projectInput").value = projectName;
 
   $(document).ready(function(){
@@ -233,12 +231,9 @@ description: "Example Storage Pool"
 
     $('#remoteBreadCrumb').text(remoteName);
     $('#remoteBreadCrumb').attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $('#storagePoolsBreadCrumb').text("storage pools");
-    $('#storagePoolsBreadCrumb').attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $('#storagePoolEditBreadCrumb').text(storagePoolName);
+    $('#repositoriesBreadCrumb').text("repositories");
 
-    $("#yamlInput").load("./php/lxd/storage-pool-show.php?name=" + encodeURI(storagePoolName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#storagePoolListTable").load("./php/lxd/storage-pool-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $("#simplestreamsListTable").load("./php/lxd/remote-list-simplestreams.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName) + "&repo=" + encodeURI(repoName));
 
   });
 

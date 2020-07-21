@@ -91,8 +91,8 @@
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="#" id="remoteBreadCrumb"></a></li>
-              <li class="breadcrumb-item"><a href="#" id="storagePoolsBreadCrumb"></a></li>
-              <li class="breadcrumb-item active" aria-current="page" id="storagePoolEditBreadCrumb"></li>
+              <li class="breadcrumb-item"><a href="#" id="repositoriesBreadCrumb"></a></li>
+              <li class="breadcrumb-item active" aria-current="page" id="repositoryBreadCrumb"></li>
             </ol>
           </nav>
 
@@ -100,77 +100,27 @@
 
 
             <div class="col-12">
-              <!-- Edit Storage Pool-->
+              <!-- Show Repo Images-->
               <div class="card shadow mb-4">
-                <a href="#collapseCardStoragePool" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardStoragePool">
-                  <h6 class="m-0 font-weight-bold text-primary">Storage Pool</h6>
+                <a href="#collapseCardImages" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardImages">
+                  <h6 class="m-0 font-weight-bold text-primary">Remote Images</h6>
                 </a>
-                <div class="collapse show" id="collapseCardStoragePool">
+                <div class="collapse show" id="collapseCardImages">
                   <div class="card-body">
-                    <div class="row">
-                      <div class="col-8">
-                        <form action="./php/lxd/storage-pool-edit.php" method="POST">
-                          <div class="row">
-                            <label class="col-2 col-form-label text-right">Name: </label>
-                            <div class="col-8">
-                              <div class="form-group">
-                                <input type="text" class="form-control" required="required" id="nameInput" readonly name="name">
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <label class="col-2 col-form-label text-right">YAML: </label>
-                            <div class="col-8 text-right">
-                              <div class="form-group">
-                                <pre>
-                                  <textarea name="yaml" class="form-control" id="yamlInput" rows="16" ></textarea>
-                                </pre>
-                                <input type="hidden" id="remoteInput" name="remote">
-                                <input type="hidden" id="projectInput" name="project">
-                              </div>
-                              <hr>
-                              <input type="submit" class="btn btn-primary" id="submit" value="Submit">
-                            </div>
-                          </div>
-
-                        </form>
-                      </div>
-                      <div class="col-4">
-                        <p>Below is an example of a YAML configuration.</p>
-<pre>
-<textarea readonly rows="16" class="form-control">
-config:
-  size: 100GB
-  source: /var/lxd/disks/example.img
-  zfs.pool_name: example
-description: "Example Storage Pool"
-</textarea>
-</pre>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table" id="imageListTable" width="100%" cellspacing="0">
+                        </table>
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>
-              <!-- End Edit Storage Pool -->
+              <!-- End Show Operation -->
             </div>
 
-            <div class="col-12">
-              <!-- Profile List -->
-              <div class="card shadow mb-4">
-                <a href="#collapseCardStoragePools" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardStoragePools">
-                  <h6 class="m-0 font-weight-bold text-primary">Storage Pools</h6>
-                </a>
-                <div class="collapse show" id="collapseCardStoragePools">
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table" id="storagePoolListTable" width="100%" cellspacing="0">
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- End Profile List -->
-            </div>
+
 
           </div>
 
@@ -220,12 +170,9 @@ description: "Example Storage Pool"
   const urlParams = new URLSearchParams(queryString);
 
   const remoteName = urlParams.get('remote'); 
-  const storagePoolName = urlParams.get('name'); 
+  const repoName = urlParams.get('repo'); 
   const projectName = urlParams.get('project'); 
 
-  document.getElementById("remoteInput").value = remoteName;
-  document.getElementById("nameInput").value = storagePoolName;
-  document.getElementById("projectInput").value = projectName;
 
   $(document).ready(function(){
 
@@ -233,13 +180,12 @@ description: "Example Storage Pool"
 
     $('#remoteBreadCrumb').text(remoteName);
     $('#remoteBreadCrumb').attr("href", "overview.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $('#storagePoolsBreadCrumb').text("storage pools");
-    $('#storagePoolsBreadCrumb').attr("href", "storage-pools.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $('#storagePoolEditBreadCrumb').text(storagePoolName);
+    $('#repositoriesBreadCrumb').text("repositories");
+    $('#repositoriesBreadCrumb').attr("href", "repositories.html?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
+    $('#repositoryBreadCrumb').text(repoName);
 
-    $("#yamlInput").load("./php/lxd/storage-pool-show.php?name=" + encodeURI(storagePoolName) + "&remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-    $("#storagePoolListTable").load("./php/lxd/storage-pool-list.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName));
-
+    $("#imageListTable").load("./php/lxd/image-list-simplestream.php?remote=" + encodeURI(remoteName) + "&project=" + encodeURI(projectName) + "&repo=" + encodeURI(repoName));
+  
   });
 
 

@@ -8,8 +8,11 @@ ENV ADMIN_PASS=dashpod
 RUN apt-get update
 RUN apt-get upgrade -y
 
+#Install Curl for API calls
+RUN apt-get install curl -y
+
 #Install sudo to be able to run lxc commands as www-data without password
-RUN apt-get install sudo
+RUN apt-get install sudo -y
 
 #Install web server requirements
 RUN apt-get install apache2-utils -y 

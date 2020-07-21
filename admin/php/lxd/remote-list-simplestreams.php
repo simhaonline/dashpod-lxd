@@ -1,5 +1,10 @@
 <?php
 
+$remote = escapeshellarg(filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING));
+$project = escapeshellarg(filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING));
+$remote_url = filter_var(urldecode($_GET['remote']), FILTER_SANITIZE_STRING);
+$project_url = filter_var(urldecode($_GET['project']), FILTER_SANITIZE_STRING);
+
 $results = shell_exec("sudo lxc remote list --format json");
 
 #Decode JSON data
@@ -34,8 +39,8 @@ foreach ($items as $item=>$value) {
 
   echo "<tr>";
 
-  echo '<td> <a href="overview.html?remote=' . $name . '&project=default"> <i class="fas fa-archive fa-2x" style="color:#4e73df"></i> </a> </td>';
-  echo '<td> <a href="overview.html?remote=' . $name . '&project=default">' . htmlentities($name) . '</a> </td>'; 
+  echo '<td> <a href="repository.html?remote=' . $remote_url . '&project=' . $project_url . '&repo=' . $name . '"> <i class="fas fa-archive fa-2x" style="color:#4e73df"></i> </a> </td>';
+  echo '<td> <a href="repository.html?remote=' . $remote_url . '&project=' . $project_url . '&repo=' . $name . '">' . htmlentities($name) . '</a> </td>'; 
   echo "<td>" . htmlentities($addr) . "</td>";
   echo "<td>" . htmlentities($protocol) . "</td>";
   echo "<td>" . htmlentities($public) . "</td>";
